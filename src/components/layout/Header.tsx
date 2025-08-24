@@ -91,10 +91,10 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
         </button>
 
         {/* Notifications */}
-        <button className="p-2 text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg transition-colors relative">
+        {/* <button className="p-2 text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg transition-colors relative">
           <BellIcon className="h-5 w-5" />
           <span className="absolute top-1 right-1 block h-2 w-2 rounded-full bg-error-500"></span>
-        </button>
+        </button> */}
 
         {/* User menu */}
         <Menu as="div" className="relative">

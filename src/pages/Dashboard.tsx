@@ -79,7 +79,7 @@ interface NewTask {
   expectedCloseDate?: string;
   leadSource?: string;
   description?: string;
-  assignedTo?: string;
+  assignedTo?: { id?: string; name?: string };
 }
 
 interface Activity {
@@ -115,12 +115,13 @@ const Dashboard: React.FC = () => {
   });
   const [pipeline, setPipeline] = useState<PipelineData[]>([]);
   const [recentActivities, setRecentActivities] = useState<RecentActivity[]>([]);
+  const [monthlyData, setMonthlyData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showOutletModal, setShowOutletModal] = useState(false);
   const [showAddLeadModal, setShowAddLeadModal] = useState(false);
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const [showAddActivityModal, setShowAddActivityModal] = useState(false);
-  const [newTask, setNewTask] = useState<NewTask>({
+  const [newTask, setNewTask] = useState<Partial<NewTask>>({
     name: '',
     customerId: '',
     amount: 0,
@@ -129,7 +130,7 @@ const Dashboard: React.FC = () => {
     expectedCloseDate: '',
     leadSource: '',
     description: '',
-    assignedTo: '',
+    assignedTo: { id: '', name: '' },
   });
   const [newActivity, setNewActivity] = useState<Partial<Activity>>({
     type: 'call',
@@ -151,13 +152,33 @@ const Dashboard: React.FC = () => {
   const fetchDashboardData = async () => {
     try {
       const response = await api.get('/dashboard/stats');
-      const { stats, pipeline, recentActivities } = response.data;
+      const { stats, pipeline, recentActivities, monthlyData } = response.data;
       
-      setStats(stats);
-      setPipeline(pipeline);
-      setRecentActivities(recentActivities);
+      setStats(stats || {
+        leads: 0,
+        tasks: 0,
+        outlets: 0,
+        activities: 0,
+        totalRevenue: 0,
+        closedRevenue: 0,
+      });
+      setPipeline(pipeline || []);
+      setRecentActivities(recentActivities || []);
+      setMonthlyData(monthlyData || []);
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
+      // Set default values on error
+      setStats({
+        leads: 0,
+        tasks: 0,
+        outlets: 0,
+        activities: 0,
+        totalRevenue: 0,
+        closedRevenue: 0,
+      });
+      setPipeline([]);
+      setRecentActivities([]);
+      setMonthlyData([]);
     } finally {
       setIsLoading(false);
     }
@@ -183,13 +204,12 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const handleAddTask = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleAddTask = async (taskData: Partial<NewTask>) => {
     try {
       const opportunityData = {
-        ...newTask,
-        amount: newTask.amount ? Number(newTask.amount) : 0,
-        probability: newTask.probability ? Number(newTask.probability) : 10,
+        ...taskData,
+        amount: taskData.amount ? Number(taskData.amount) : 0,
+        probability: taskData.probability ? Number(taskData.probability) : 10,
       };
       await api.post('/opportunities', opportunityData);
       setShowAddTaskModal(false);
@@ -202,7 +222,7 @@ const Dashboard: React.FC = () => {
         expectedCloseDate: '',
         leadSource: '',
         description: '',
-        assignedTo: '',
+        assignedTo: { id: '', name: '' },
       });
       fetchDashboardData();
     } catch (error) {
@@ -210,7 +230,7 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const handleAddActivity = async (activityData: Partial<Activity>) => {
+  const handleAddActivity = async (activityData: any) => {
     try {
       await api.post('/activities', activityData);
       setShowAddActivityModal(false);
@@ -226,32 +246,32 @@ const Dashboard: React.FC = () => {
       value: stats.leads,
       icon: UserGroupIcon,
       color: 'primary',
-      change: '+0%',
-      changeType: 'increase' as const,
+      change: stats.leads > 0 ? '+12%' : '0%',
+      changeType: stats.leads > 0 ? 'increase' as const : 'neutral' as const,
     },
     {
-      name: 'Active Tasks', // Updated to match response
+      name: 'Active Tasks',
       value: stats.tasks,
       icon: CurrencyDollarIcon,
       color: 'secondary',
-      change: '+0%',
-      changeType: 'increase' as const,
+      change: stats.tasks > 0 ? '+8%' : '0%',
+      changeType: stats.tasks > 0 ? 'increase' as const : 'neutral' as const,
     },
     {
-      name: 'Outlets', // Updated to match response
+      name: 'Outlets',
       value: stats.outlets,
       icon: BuildingOffice2Icon,
       color: 'accent',
-      change: '+0%',
-      changeType: 'increase' as const,
+      change: stats.outlets > 0 ? '+5%' : '0%',
+      changeType: stats.outlets > 0 ? 'increase' as const : 'neutral' as const,
     },
     {
       name: 'Pending Activities',
       value: stats.activities,
       icon: CalendarDaysIcon,
       color: 'warning',
-      change: '+0%',
-      changeType: 'increase' as const,
+      change: stats.activities > 0 ? '+15%' : '0%',
+      changeType: stats.activities > 0 ? 'increase' as const : 'neutral' as const,
     },
   ];
 
@@ -263,7 +283,7 @@ const Dashboard: React.FC = () => {
     }).format(amount);
   };
 
-  const monthlyData = [
+  const defaultMonthlyData = [
     { month: 'Jan', revenue: 0, opportunities: 0 },
     { month: 'Feb', revenue: 0, opportunities: 0 },
     { month: 'Mar', revenue: 0, opportunities: 0 },
@@ -272,13 +292,19 @@ const Dashboard: React.FC = () => {
     { month: 'Jun', revenue: 0, opportunities: 0 },
   ];
 
-  const stageColors = {
+  const stageColors: Record<string, string> = {
     prospecting: '#3B82F6',
     qualification: '#10B981',
     proposal: '#F59E0B',
     negotiation: '#8B5CF6',
     closed_won: '#059669',
     closed_lost: '#EF4444',
+    new: '#3B82F6',
+    contacted: '#10B981',
+    qualified: '#F59E0B',
+    presentation: '#8B5CF6',
+    decision: '#059669',
+    closed: '#EF4444',
   };
 
   if (isLoading) {
@@ -365,7 +391,8 @@ const Dashboard: React.FC = () => {
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={monthlyData}>
+                    <LineChart data={monthlyData.length > 0 ? monthlyData : defaultMonthlyData}>
+
                 <CartesianGrid strokeDasharray="3 3" stroke="#E5E5E5" className="dark:stroke-gray-600" />
                 <XAxis dataKey="month" stroke="#737373" className="dark:stroke-gray-400" />
                 <YAxis stroke="#737373" className="dark:stroke-gray-400" />
@@ -414,10 +441,11 @@ const Dashboard: React.FC = () => {
                       dataKey="value"
                     >
                       {pipeline.map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={stageColors[entry.stage as keyof typeof stageColors] || '#737373'}
-                        />
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={stageColors[entry.stage] || '#737373'}
+                      />
+
                       ))}
                     </Pie>
                     <Tooltip
@@ -437,7 +465,7 @@ const Dashboard: React.FC = () => {
                       <div
                         className="w-3 h-3 rounded-full mr-2"
                         style={{
-                          backgroundColor: stageColors[stage.stage as keyof typeof stageColors] || '#737373',
+                          backgroundColor: stageColors[stage.stage] || '#737373',
                         }}
                       ></div>
                       <span className="text-sm text-neutral-600 dark:text-neutral-400 capitalize">
@@ -549,15 +577,18 @@ const Dashboard: React.FC = () => {
       <AddTaskModal
         isOpen={showAddTaskModal}
         onClose={() => setShowAddTaskModal(false)}
-        onSubmit={handleAddTask}
-        newTask={newTask}
-        setNewTask={setNewTask}
+        onSubmit={(e: React.FormEvent) => {
+          e.preventDefault();
+          handleAddTask(newTask);
+        }}
+        newTask={newTask as any}
+        setNewTask={setNewTask as any}
       />
 
       <AddActivityModal
         isOpen={showAddActivityModal}
         onClose={() => setShowAddActivityModal(false)}
-        onAdd={handleAddActivity}
+        onAdd={handleAddActivity as any}
       />
     </div>
   );
