@@ -7,7 +7,7 @@ import Input from '../components/ui/Input';
 import { Task, TasksResponse } from '../types/tasks';
 import { ViewTaskModal, AddTaskModal, EditTaskModal } from '../modals/tasks';
 import { useAuth } from '../contexts/AuthContext';
-import { TaskConstants, TaskStage, TASK_STAGES, TASK_STATUS } from '../constants/TaskConstants';
+import { TaskConstants, TaskStage, TASK_STAGES, TASK_STATUS, TaskStatus } from '../constants/TaskConstants';
 import { formatDate } from '../utils/formatters';
 
 const stageColors: Record<TaskStage, string> = {
@@ -221,7 +221,9 @@ const Tasks: React.FC = memo(() => {
   const { user, isLoading: authLoading } = useAuth();
   const taskConstants: TaskConstants = {
     stages: TASK_STAGES,
-    statuses: TASK_STATUS
+    statuses: TASK_STATUS,
+    taskStageOptions: undefined,
+    taskStatusOptions: undefined
   };
 
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -246,6 +248,7 @@ const Tasks: React.FC = memo(() => {
     outletId: '',
     amount: 0,
     stage: 'NEW' as TaskStage,
+    status: 'PENDING' as TaskStatus,
     probability: 10,
     expectedCloseDate: '',
     leadSource: '',
@@ -376,7 +379,22 @@ const Tasks: React.FC = memo(() => {
             Manage and monitor all sales tasks
           </p>
         </div>
-        <Button onClick={() => setShowAddModal(true)}>Add New Task</Button>
+        <Button onClick={() => {
+          setNewTask({
+            name: 'New Task',
+            outletId: '',
+            amount: 0,
+            stage: 'NEW' as TaskStage,
+            status: 'PENDING' as TaskStatus,
+            probability: 10,
+            expectedCloseDate: '',
+            leadSource: '',
+            description: '',
+            assignedTo: { id: '', name: '' },
+          });
+          setShowAddModal(true);
+        }}>Add New Task</Button>
+
       </div>
 
       <Card>

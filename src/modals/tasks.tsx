@@ -4,9 +4,10 @@ import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import { formatDateForInput } from '../utils/formatters';
-import { TaskConstants, TaskStage, TASK_STAGES, TASK_STATUS } from '../constants/TaskConstants';
+import { TaskConstants, TaskStage, TASK_STAGES, TASK_STATUS, TaskStatus } from '../constants/TaskConstants';
 import { Task } from '../types/tasks';
-
+import { useAuth } from '../contexts/AuthContext';
+import { User } from '../types/users';
 
 const stageColors: Record<TaskStage, string> = {
   NEW: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
@@ -19,17 +20,25 @@ const stageColors: Record<TaskStage, string> = {
   LOST: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
 };
 
-
 const useTaskConstants = (): TaskConstants => {
   return {
     stages: TASK_STAGES,
     statuses: TASK_STATUS,
+    taskStageOptions: undefined,
+    taskStatusOptions: undefined,
   };
 };
 
 const getTaskStageOptions = (taskConstants: TaskConstants) => {
   return Object.entries(taskConstants.stages).map(([key, value]) => ({
     value: key as TaskStage,
+    label: value,
+  }));
+};
+
+const getTaskStatusOptions = (taskConstants: TaskConstants) => {
+  return Object.entries(taskConstants.statuses).map(([key, value]) => ({
+    value: key,
     label: value,
   }));
 };
@@ -64,8 +73,6 @@ interface EditTaskModalProps {
   formData: Partial<Task>;
   setFormData: React.Dispatch<React.SetStateAction<Partial<Task>>>;
 }
-
-
 
 export const ViewTaskModal: React.FC<ViewTaskModalProps> = ({
   task,
@@ -150,9 +157,8 @@ export const ViewTaskModal: React.FC<ViewTaskModalProps> = ({
               </label>
               <p className="mt-1">
                 <span
-                  className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                    stageColors[task.stage] || 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200'
-                  }`}
+                  className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${stageColors[task.stage] || 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200'
+                    }`}
                 >
                   {taskConstants.stages[task.stage] || task.stage}
                 </span>
@@ -236,6 +242,7 @@ export const AddTaskModal: React.FC<AddTaskModalProps> = ({
   setNewTask,
 }) => {
   const taskConstants = useTaskConstants();
+  const { user } = useAuth() as { user: User | null };
   const [outlets, setOutlets] = useState<any[]>([]);
   const [outletSearch, setOutletSearch] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
@@ -247,6 +254,7 @@ export const AddTaskModal: React.FC<AddTaskModalProps> = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const userDropdownRef = useRef<HTMLDivElement>(null);
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
+  const isAdmin = user?.permissions?.includes("SUPER_ADMIN_ACCESS") || user?.permissions?.includes("ADMIN_ACCESS") || false;
 
   const fetchOutlets = async (search: string) => {
     try {
@@ -269,9 +277,9 @@ export const AddTaskModal: React.FC<AddTaskModalProps> = ({
       setUsers(
         Array.isArray(data)
           ? data.map((user) => ({
-              id: user.id,
-              name: user.fullName,
-            }))
+            id: user.id,
+            name: user.fullName,
+          }))
           : []
       );
     } catch (error) {
@@ -450,6 +458,26 @@ export const AddTaskModal: React.FC<AddTaskModalProps> = ({
                 </select>
               </div>
 
+              {isAdmin && (
+                <div>
+                  <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                    Status
+                  </label>
+                  <select
+                    name="status"
+                    value={newTask.status || ''}
+                    onChange={(e) => setNewTask({ ...newTask, status: e.target.value })}
+                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white"
+                  >
+                    {getTaskStatusOptions(taskConstants).map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
               <div>
                 <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
                   Probability (%)
@@ -576,6 +604,7 @@ export const EditTaskModal: React.FC<EditTaskModalProps> = ({
   setFormData,
 }) => {
   const taskConstants = useTaskConstants();
+  const { user } = useAuth() as { user: User | null };
   const [outlets, setOutlets] = useState<any[]>([]);
   const [outletSearch, setOutletSearch] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
@@ -587,6 +616,7 @@ export const EditTaskModal: React.FC<EditTaskModalProps> = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const userDropdownRef = useRef<HTMLDivElement>(null);
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
+  const isAdmin = user?.permissions?.includes("SUPER_ADMIN_ACCESS") || user?.permissions?.includes("ADMIN_ACCESS") || false;
 
   useEffect(() => {
     if (isOpen && task?.outlet?.outletName) {
@@ -595,7 +625,12 @@ export const EditTaskModal: React.FC<EditTaskModalProps> = ({
     if (isOpen && task?.assignedTo?.name) {
       setUserSearch(task.assignedTo.name);
     }
+    if (isOpen && task?.status) {
+      setFormData(prev => ({ ...prev, status: task.status as TaskStatus }));
+
+    }
   }, [isOpen, task]);
+
 
   const fetchOutlets = async (search: string) => {
     try {
@@ -618,9 +653,9 @@ export const EditTaskModal: React.FC<EditTaskModalProps> = ({
       setUsers(
         Array.isArray(data)
           ? data.map((user) => ({
-              id: user.id,
-              name: user.fullName,
-            }))
+            id: user.id,
+            name: user.fullName,
+          }))
           : []
       );
     } catch (error) {
@@ -681,8 +716,8 @@ export const EditTaskModal: React.FC<EditTaskModalProps> = ({
 
   const filteredOutlets = outletSearch
     ? outlets.filter((outlet) =>
-        outlet.outletName.toLowerCase().includes(outletSearch.toLowerCase())
-      )
+      outlet.outletName.toLowerCase().includes(outletSearch.toLowerCase())
+    )
     : outlets;
 
   const filteredUsers = userSearch
@@ -796,6 +831,33 @@ export const EditTaskModal: React.FC<EditTaskModalProps> = ({
                   ))}
                 </select>
               </div>
+
+              {isAdmin && (
+                <div>
+                  <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                    Status
+                  </label>
+                  <select
+                    name="status"
+                    value={formData.status ?? ''}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setFormData({
+                        ...formData,
+                        status: value === '' ? undefined : (value as TaskStatus),
+                      });
+                    }}
+                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white"
+                  >
+                    <option value="">Select Status</option>
+                    {getTaskStatusOptions(taskConstants).map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
 
               <div>
                 <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">

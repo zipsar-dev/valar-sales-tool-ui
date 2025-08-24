@@ -1,4 +1,4 @@
-import { TaskStage } from '../constants/TaskConstants';
+import { TaskStage, TaskStatus } from '../constants/TaskConstants';
 
 export interface Task {
   id: string;
@@ -6,6 +6,7 @@ export interface Task {
   outletId?: string;
   amount: number;
   stage: TaskStage;
+  status?: TaskStatus;
   probability: number;
   expectedCloseDate?: string;
   leadSource?: string;

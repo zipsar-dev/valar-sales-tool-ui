@@ -2,6 +2,8 @@ export type TaskStage = 'NEW' | 'CONTACTED' | 'DEMO' | 'OFFER_SENT' | 'NEGOTIATI
 export type TaskStatus = 'PENDING' | 'SUCCESS' | 'FAILED';
 
 export interface TaskConstants {
+  taskStageOptions: any;
+  taskStatusOptions: any;
   stages: Record<TaskStage, string>;
   statuses: Record<TaskStatus, string>;
 }
