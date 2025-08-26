@@ -1,24 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import { Search, Filter, Edit, Eye, Trash2, ChevronLeft, ChevronRight, Shield } from 'lucide-react';
-import api from '../lib/api';
-import { useAuth } from '../contexts/AuthContext';
-import Card from '../components/ui/Card';
-import Button from '../components/ui/Button';
-import Input from '../components/ui/Input';
-import { Outlet } from '../types/outlets';
-import { ViewOutletModal, EditOutletModal, AddOutletModal } from '../modals/outlets';
-
-
+import React, { useState, useEffect } from "react";
+import {
+  Search,
+  Filter,
+  Edit,
+  Eye,
+  Trash2,
+  ChevronLeft,
+  ChevronRight,
+  Shield,
+} from "lucide-react";
+import api from "../lib/api";
+import { useAuth } from "../contexts/AuthContext";
+import Card from "../components/ui/Card";
+import Button from "../components/ui/Button";
+import Input from "../components/ui/Input";
+import { Outlet } from "../types/outlets";
+import {
+  ViewOutletModal,
+  EditOutletModal,
+  AddOutletModal,
+} from "../modals/outlets";
 
 const Outlets: React.FC = () => {
   const [outlets, setOutlets] = useState<Outlet[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 10,
     total: 0,
-    totalPages: 1
+    totalPages: 1,
   });
   const [selectedOutlet, setSelectedOutlet] = useState<Outlet | null>(null);
   const [showViewModal, setShowViewModal] = useState(false);
@@ -46,7 +57,7 @@ const Outlets: React.FC = () => {
       setOutlets(outlets);
       setPagination(pag);
     } catch (error) {
-      console.error('Error fetching outlets:', error);
+      console.error("Error fetching outlets:", error);
     } finally {
       setLoading(false);
     }
@@ -54,11 +65,11 @@ const Outlets: React.FC = () => {
 
   const handleAddOutlet = async (outletData: Partial<Outlet>) => {
     try {
-      await api.post('/outlets', outletData);
+      await api.post("/outlets", outletData);
       setShowAddModal(false);
       fetchOutlets();
     } catch (error) {
-      console.error('Error adding outlet:', error);
+      console.error("Error adding outlet:", error);
     }
   };
 
@@ -67,7 +78,7 @@ const Outlets: React.FC = () => {
       await api.delete(`/outlets/${id}`);
       fetchOutlets();
     } catch (error) {
-      console.error('Error deleting outlet:', error);
+      console.error("Error deleting outlet:", error);
     }
   };
 
@@ -80,28 +91,26 @@ const Outlets: React.FC = () => {
       setEditingOutlet(null);
       fetchOutlets();
     } catch (error) {
-      console.error('Error updating outlet:', error);
+      console.error("Error updating outlet:", error);
     }
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   };
 
   const getInitials = (outletName: string) => {
     return outletName
-      .split(' ')
-      .map(word => word.charAt(0))
-      .join('')
+      .split(" ")
+      .map((word) => word.charAt(0))
+      .join("")
       .toUpperCase()
       .slice(0, 2);
   };
-
-
 
   const OutletCard = ({ outlet }: { outlet: Outlet }) => (
     <Card className="p-4 hover:shadow-md transition-shadow">
@@ -117,17 +126,20 @@ const Outlets: React.FC = () => {
             {outlet.outletName}
           </h3>
 
-          <p className="text-sm text-neutral-500 dark:text-neutral-400 truncate">{outlet.email}</p>
-          <p className="text-xs text-neutral-400 dark:text-neutral-500">
-            {outlet.outletType ?? 'No outlet type'}
+          <p className="text-sm text-neutral-500 dark:text-neutral-400 truncate">
+            {outlet.email}
           </p>
-
+          <p className="text-xs text-neutral-400 dark:text-neutral-500">
+            {outlet.outletType ?? "No outlet type"}
+          </p>
         </div>
       </div>
 
       <div className="mt-4 flex items-center justify-between text-xs text-neutral-500 dark:text-neutral-400">
         <span>Added {formatDate(outlet.createdAt)}</span>
-        {outlet.updatedAt && <span>Updated {formatDate(outlet.updatedAt)}</span>}
+        {outlet.updatedAt && (
+          <span>Updated {formatDate(outlet.updatedAt)}</span>
+        )}
       </div>
 
       <div className="mt-4 flex space-x-2">
@@ -192,7 +204,10 @@ const Outlets: React.FC = () => {
         </thead>
         <tbody className="bg-white dark:bg-neutral-900 divide-y divide-neutral-200 dark:divide-neutral-700">
           {outlets.map((outlet) => (
-            <tr key={outlet.id} className="hover:bg-neutral-50 dark:hover:bg-neutral-800">
+            <tr
+              key={outlet.id}
+              className="hover:bg-neutral-50 dark:hover:bg-neutral-800"
+            >
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="flex items-center">
                   <div className="w-10 h-10 rounded-full bg-primary-100 dark:bg-primary-900 flex items-center justify-center">
@@ -212,14 +227,16 @@ const Outlets: React.FC = () => {
                 </div>
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
-                {outlet.contactName || 'N/A'}
+                {outlet.contactName || "N/A"}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
-                {outlet.outletType || 'N/A'}
+                {outlet.outletType || "N/A"}
               </td>
 
               <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
-                {outlet.city ? `${outlet.city}, ${outlet.country || ''}` : 'N/A'}
+                {outlet.city
+                  ? `${outlet.city}, ${outlet.country || ""}`
+                  : "N/A"}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                 <div className="flex space-x-2">
@@ -268,14 +285,12 @@ const Outlets: React.FC = () => {
             Manage and monitor all outlets
           </p>
         </div>
-        <Button onClick={() => setShowAddModal(true)}>
-          Add New Outlet
-        </Button>
+        <Button onClick={() => setShowAddModal(true)}>Add New Outlet</Button>
       </div>
 
       {/* Filters */}
-      <Card>
-        <div className="p-4">
+      <Card padding="sm">
+        <div className="p-2">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1">
               <div className="relative">
@@ -295,7 +310,7 @@ const Outlets: React.FC = () => {
             <Button
               variant="outline"
               onClick={() => {
-                setSearchTerm('');
+                setSearchTerm("");
                 setPagination({ ...pagination, page: 1 });
               }}
             >
@@ -307,8 +322,8 @@ const Outlets: React.FC = () => {
       </Card>
 
       {/* Outlets Display */}
-      <Card>
-        <div className="p-6">
+      <Card padding="sm">
+        <div className="p-2">
           {loading ? (
             <div className="flex items-center justify-center h-64">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
@@ -347,15 +362,17 @@ const Outlets: React.FC = () => {
       {pagination.totalPages > 1 && (
         <div className="flex items-center justify-between">
           <div className="text-sm text-neutral-500 dark:text-neutral-400">
-            Showing {((pagination.page - 1) * pagination.limit) + 1} to{' '}
-            {Math.min(pagination.page * pagination.limit, pagination.total)} of{' '}
+            Showing {(pagination.page - 1) * pagination.limit + 1} to{" "}
+            {Math.min(pagination.page * pagination.limit, pagination.total)} of{" "}
             {pagination.total} outlets
           </div>
 
           <div className="flex items-center space-x-2">
             <Button
               variant="outline"
-              onClick={() => setPagination({ ...pagination, page: pagination.page - 1 })}
+              onClick={() =>
+                setPagination({ ...pagination, page: pagination.page - 1 })
+              }
               disabled={pagination.page === 1}
             >
               <ChevronLeft className="w-4 h-4" />
@@ -367,7 +384,9 @@ const Outlets: React.FC = () => {
 
             <Button
               variant="outline"
-              onClick={() => setPagination({ ...pagination, page: pagination.page + 1 })}
+              onClick={() =>
+                setPagination({ ...pagination, page: pagination.page + 1 })
+              }
               disabled={pagination.page === pagination.totalPages}
             >
               <ChevronRight className="w-4 h-4" />
@@ -397,7 +416,6 @@ const Outlets: React.FC = () => {
         outlet={editingOutlet}
         onSave={handleEditOutlet}
       />
-
     </div>
   );
 };

@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import api, { walletApi } from '../lib/api';
-import Card from '../components/ui/Card';
-import Button from '../components/ui/Button';
-import { formatCurrency } from '../utils/formatters';
-import { useAuth } from '../contexts/AuthContext';
-import { User } from '../types/users';
+import React, { useState, useEffect } from "react";
+import api, { walletApi } from "../lib/api";
+import Card from "../components/ui/Card";
+import Button from "../components/ui/Button";
+import { formatCurrency } from "../utils/formatters";
+import { useAuth } from "../contexts/AuthContext";
+import { User } from "../types/users";
 
 interface WalletData {
   id: number;
@@ -40,11 +40,14 @@ const Wallet: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 10;
 
-  const { user } = useAuth() as { user: User | null }; 
+  const { user } = useAuth() as { user: User | null };
 
   useEffect(() => {
     // Check admin status from user permissions
-    const isAdminUser = user?.permissions?.includes("SUPER_ADMIN_ACCESS") || user?.permissions?.includes("ADMIN_ACCESS") || false;
+    const isAdminUser =
+      user?.permissions?.includes("SUPER_ADMIN_ACCESS") ||
+      user?.permissions?.includes("ADMIN_ACCESS") ||
+      false;
     setIsAdmin(isAdminUser);
 
     // Fetch data based on role
@@ -66,7 +69,7 @@ const Wallet: React.FC = () => {
       const response = await walletApi.getWallet();
       setWallet(response.data.data);
     } catch (err) {
-      setError('Failed to fetch wallet data');
+      setError("Failed to fetch wallet data");
       console.error(err);
     } finally {
       setLoading(false);
@@ -75,10 +78,10 @@ const Wallet: React.FC = () => {
 
   const fetchAllWallets = async () => {
     try {
-      const response = await api.get('wallet/admin/all');
+      const response = await api.get("wallet/admin/all");
       setAllWallets(response.data.data);
     } catch (err) {
-      setError('Failed to fetch wallets data');
+      setError("Failed to fetch wallets data");
       console.error(err);
     } finally {
       setLoading(false);
@@ -97,7 +100,7 @@ const Wallet: React.FC = () => {
         setTotalPages(Math.ceil(response.data.data.length / itemsPerPage));
       }
     } catch (err) {
-      setError('Failed to fetch transactions');
+      setError("Failed to fetch transactions");
       console.error(err);
     }
   };
@@ -129,20 +132,24 @@ const Wallet: React.FC = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-          {isAdmin ? 'All Wallets (Admin)' : 'My Wallet'}
+          {isAdmin ? "All Wallets (Admin)" : "My Wallet"}
         </h1>
         <p className="mt-2 text-gray-600 dark:text-gray-300">
-          {isAdmin ? 'View and manage all user wallets' : 'Manage your earnings and view transaction history'}
+          {isAdmin
+            ? "View and manage all user wallets"
+            : "Manage your earnings and view transaction history"}
         </p>
       </div>
 
       {isAdmin ? (
-        <Card className="bg-white dark:bg-gray-800">
-          <div className="p-6">
-            <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">All User Wallets</h2>
+        <Card className="bg-white dark:bg-gray-800" padding="sm">
+          <div className="p-3 md:p-6">
+            <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
+              All User Wallets
+            </h2>
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead className="bg-gray-50 dark:bg-gray-700">
+                <thead className="bg-gray-50 dark:bg-neutral-800">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                       User
@@ -161,7 +168,7 @@ const Wallet: React.FC = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                <tbody className="bg-white dark:bg-neutral-700 divide-y divide-gray-200 dark:divide-gray-700">
                   {allWallets.map((wallet) => (
                     <tr key={wallet.id}>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
@@ -179,7 +186,7 @@ const Wallet: React.FC = () => {
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
                         {wallet.lastPayoutDate
                           ? new Date(wallet.lastPayoutDate).toLocaleDateString()
-                          : 'No payouts yet'}
+                          : "No payouts yet"}
                       </td>
                     </tr>
                   ))}
@@ -194,14 +201,18 @@ const Wallet: React.FC = () => {
             <Card className="bg-gradient-to-r from-blue-500 to-blue-600 text-white dark:from-blue-600 dark:to-blue-700">
               <div className="p-6">
                 <h3 className="text-lg font-semibold mb-2">Current Balance</h3>
-                <p className="text-3xl font-bold">{formatCurrency(wallet?.balance ?? 0)}</p>
+                <p className="text-3xl font-bold">
+                  {formatCurrency(wallet?.balance ?? 0)}
+                </p>
               </div>
             </Card>
 
             <Card className="bg-gradient-to-r from-green-500 to-green-600 text-white dark:from-green-600 dark:to-green-700">
               <div className="p-6">
                 <h3 className="text-lg font-semibold mb-2">Total Earned</h3>
-                <p className="text-3xl font-bold">{formatCurrency(wallet?.totalEarned ?? 0)}</p>
+                <p className="text-3xl font-bold">
+                  {formatCurrency(wallet?.totalEarned ?? 0)}
+                </p>
               </div>
             </Card>
 
@@ -211,7 +222,7 @@ const Wallet: React.FC = () => {
                 <p className="text-xl">
                   {wallet?.lastPayoutDate
                     ? new Date(wallet.lastPayoutDate).toLocaleDateString()
-                    : 'No payouts yet'}
+                    : "No payouts yet"}
                 </p>
               </div>
             </Card>
@@ -219,10 +230,14 @@ const Wallet: React.FC = () => {
 
           <Card className="bg-white dark:bg-gray-800">
             <div className="p-6">
-              <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Transaction History</h2>
+              <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
+                Transaction History
+              </h2>
 
               {transactions.length === 0 ? (
-                <p className="text-gray-500 dark:text-gray-400 text-center py-8">No transactions yet</p>
+                <p className="text-gray-500 dark:text-gray-400 text-center py-8">
+                  No transactions yet
+                </p>
               ) : (
                 <>
                   <div className="overflow-x-auto">
@@ -247,19 +262,23 @@ const Wallet: React.FC = () => {
                         {transactions.map((transaction) => (
                           <tr key={transaction.id}>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                              {new Date(transaction.created_at).toLocaleDateString()}
+                              {new Date(
+                                transaction.created_at
+                              ).toLocaleDateString()}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
                               {transaction.description}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                              {transaction.task_name ?? 'N/A'}
+                              {transaction.task_name ?? "N/A"}
                             </td>
-                            <td className={`px-6 py-4 whitespace-nowrap text-sm text-right font-medium ${
-                              transaction.type === 'credit'
-                                ? 'text-green-600 dark:text-green-400'
-                                : 'text-red-600 dark:text-red-400'
-                            }`}>
+                            <td
+                              className={`px-6 py-4 whitespace-nowrap text-sm text-right font-medium ${
+                                transaction.type === "credit"
+                                  ? "text-green-600 dark:text-green-400"
+                                  : "text-red-600 dark:text-red-400"
+                              }`}
+                            >
                               {formatCurrency(transaction.amount)}
                             </td>
                           </tr>
