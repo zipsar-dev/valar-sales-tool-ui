@@ -54,7 +54,7 @@ const Roles: React.FC = () => {
       });
 
       const response = await api.get(`/roles?${params}`);
-      const { roles, pagination: pag } = response.data as RolesResponse;
+      const { roles, pagination: pag } = response.data.data as RolesResponse;
       
       setRoles(roles);
       setPagination(pag);
@@ -444,7 +444,7 @@ const Roles: React.FC = () => {
               role_name: data.role_name,
               role_key: data.role_key
             });
-            const newRole = roleResponse.data;
+            const newRole = roleresponse.data.data;
 
             setShowAddModal(false);
             fetchRoles();

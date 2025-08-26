@@ -41,7 +41,7 @@ const Outlets: React.FC = () => {
       });
 
       const response = await api.get(`/outlets?${params}`);
-      const { outlets, pagination: pag } = response.data;
+      const { outlets, pagination: pag } = response.data.data;
 
       setOutlets(outlets);
       setPagination(pag);

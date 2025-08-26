@@ -64,7 +64,7 @@ const Wallet: React.FC = () => {
   const fetchUserData = async () => {
     try {
       const response = await walletApi.getWallet();
-      setWallet(response.data);
+      setWallet(response.data.data);
     } catch (err) {
       setError('Failed to fetch wallet data');
       console.error(err);
@@ -89,12 +89,12 @@ const Wallet: React.FC = () => {
     try {
       const offset = (currentPage - 1) * itemsPerPage;
       const response = await walletApi.getTransactions(itemsPerPage, offset);
-      setTransactions(response.data.transactions || response.data);
+      setTransactions(response.data.data.transactions || response.data.data);
 
-      if (response.data.total) {
-        setTotalPages(Math.ceil(response.data.total / itemsPerPage));
+      if (response.data.data.total) {
+        setTotalPages(Math.ceil(response.data.data.total / itemsPerPage));
       } else {
-        setTotalPages(Math.ceil(response.data.length / itemsPerPage));
+        setTotalPages(Math.ceil(response.data.data.length / itemsPerPage));
       }
     } catch (err) {
       setError('Failed to fetch transactions');

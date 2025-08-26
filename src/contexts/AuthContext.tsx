@@ -63,7 +63,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = memo(({ chi
     console.log('Refreshing user access');
     try {
       const res = await api.get('/users/access');
-      const newPermissions = res.data.permissions;
+      const newPermissions = res.data.data.permissions;
       setUser((prev) => {
         if (!prev) return prev;
         const updatedUser = { ...prev, permissions: newPermissions };
@@ -79,7 +79,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = memo(({ chi
   const login = async (email: string, password: string) => {
     try {
       const response = await api.post('/auth/login', { email, password });
-      const { token: newToken, user: newUser } = response.data;
+      const { token: newToken, user: newUser } = response.data.data;
 
       setToken(newToken);
       setUser(newUser);
@@ -104,7 +104,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = memo(({ chi
   const register = async (data: RegisterData) => {
     try {
       const response = await api.post('/auth/register', data);
-      const { token: newToken, user: newUser } = response.data;
+      const { token: newToken, user: newUser } = response.data.data;
 
       setToken(newToken);
       setUser(newUser);

@@ -42,7 +42,7 @@ const Users: React.FC = () => {
       });
 
       const response = await api.get(`/users?${params}`);
-      const { users, pagination: pag } = response.data as UsersResponse;
+      const { users, pagination: pag } = response.data.data as UsersResponse;
       
       setUsers(users);
       setPagination(pag);

@@ -36,7 +36,7 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({
     try {
       setLoadingOutlets(true);
       const response = await api.get(`/outlets?search=${encodeURIComponent(search)}`);
-      const data = response.data.outlets || response.data;
+      const data = response.data.data.outlets || response.data.data;
       setOutlets(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error fetching outlets:', error);
@@ -49,7 +49,7 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({
     try {
       setLoadingUsers(true);
       const response = await api.get(`/users?search=${encodeURIComponent(search)}`);
-      const data = response.data.users || response.data;
+      const data = response.data.data.users || response.data.data;
       setUsers(
         Array.isArray(data)
           ? data.map((user) => ({
@@ -397,7 +397,7 @@ export const EditLeadModal: React.FC<EditLeadModalProps> = ({
     try {
       setLoadingOutlets(true);
       const response = await api.get(`/outlets?search=${encodeURIComponent(search)}`);
-      const data = response.data.outlets || response.data;
+      const data = response.data.data.outlets || response.data.data;
       setOutlets(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error fetching outlets:', error);
@@ -410,7 +410,7 @@ export const EditLeadModal: React.FC<EditLeadModalProps> = ({
     try {
       setLoadingUsers(true);
       const response = await api.get(`/users?search=${encodeURIComponent(search)}`);
-      const data = response.data.users || response.data;
+      const data = response.data.data.users || response.data.data;
       setUsers(
         Array.isArray(data)
           ? data.map((user) => ({

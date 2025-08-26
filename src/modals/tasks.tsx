@@ -260,7 +260,7 @@ export const AddTaskModal: React.FC<AddTaskModalProps> = ({
     try {
       setLoadingOutlets(true);
       const response = await api.get(`/outlets?search=${encodeURIComponent(search)}`);
-      const data = response.data.outlets || response.data;
+      const data = response.data.data.outlets || response.data.data;
       setOutlets(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error fetching outlets:', error);
@@ -273,7 +273,7 @@ export const AddTaskModal: React.FC<AddTaskModalProps> = ({
     try {
       setLoadingUsers(true);
       const response = await api.get(`/users?search=${encodeURIComponent(search)}`);
-      const data = response.data.users || response.data;
+      const data = response.data.data.users || response.data.data;
       setUsers(
         Array.isArray(data)
           ? data.map((user) => ({
@@ -636,7 +636,7 @@ export const EditTaskModal: React.FC<EditTaskModalProps> = ({
     try {
       setLoadingOutlets(true);
       const response = await api.get(`/outlets?search=${encodeURIComponent(search)}`);
-      const data = response.data.outlets || response.data;
+      const data = response.data.data.outlets || response.data.data;
       setOutlets(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error fetching outlets:', error);
@@ -649,7 +649,7 @@ export const EditTaskModal: React.FC<EditTaskModalProps> = ({
     try {
       setLoadingUsers(true);
       const response = await api.get(`/users?search=${encodeURIComponent(search)}`);
-      const data = response.data.users || response.data;
+      const data = response.data.data.users || response.data.data;
       setUsers(
         Array.isArray(data)
           ? data.map((user) => ({

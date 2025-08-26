@@ -44,7 +44,7 @@ const Leads: React.FC = () => {
       });
 
       const response = await api.get(`/leads?${params}`);
-      const { leads, pagination: pag } = response.data;
+      const { leads, pagination: pag } = response.data.data;
 
       setLeads(leads);
       setPagination(pag);

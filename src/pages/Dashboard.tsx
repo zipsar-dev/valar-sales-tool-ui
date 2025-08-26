@@ -152,7 +152,7 @@ const Dashboard: React.FC = () => {
   const fetchDashboardData = async () => {
     try {
       const response = await api.get('/dashboard/stats');
-      const { stats, pipeline, recentActivities, monthlyData } = response.data;
+      const { stats, pipeline, recentActivities, monthlyData } = response.data.data;
       
       setStats(stats || {
         leads: 0,

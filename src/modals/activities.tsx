@@ -85,13 +85,12 @@ export const ViewActivityModal: React.FC<ViewActivityModalProps> = ({ activity, 
                                     Status
                                 </label>
                                 <p className="mt-1 text-sm">
-                                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                        activity.status === 'completed'
+                                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${activity.status === 'completed'
                                             ? 'bg-success-100 text-success-800 dark:bg-success-900 dark:text-success-200'
                                             : activity.status === 'cancelled'
                                                 ? 'bg-error-100 text-error-800 dark:bg-error-900 dark:text-error-200'
                                                 : 'bg-warning-100 text-warning-800 dark:bg-warning-900 dark:text-warning-200'
-                                    }`}>
+                                        }`}>
                                         {activity.status}
                                     </span>
                                 </p>
@@ -281,7 +280,7 @@ export const EditActivityModal: React.FC<EditActivityModalProps> = ({ activity, 
         try {
             setLoadingOutlets(true);
             const response = await api.get(`/outlets?search=${encodeURIComponent(search)}`);
-            const data = response.data.outlets || response.data;
+            const data = response.data.data.outlets || response.data.data;
             setOutlets(Array.isArray(data) ? data : []);
         } catch (error) {
             console.error('Error fetching outlets:', error);
@@ -294,7 +293,7 @@ export const EditActivityModal: React.FC<EditActivityModalProps> = ({ activity, 
         try {
             setLoadingLeads(true);
             const response = await api.get(`/leads?search=${encodeURIComponent(search)}`);
-            const data = response.data.leads || response.data;
+            const data = response.data.data.leads || response.data.data;
             setLeads(Array.isArray(data) ? data.map(lead => ({ id: lead.id, name: lead.name })) : []);
         } catch (error) {
             console.error('Error fetching leads:', error);
@@ -307,7 +306,7 @@ export const EditActivityModal: React.FC<EditActivityModalProps> = ({ activity, 
         try {
             setLoadingTasks(true);
             const response = await api.get(`/tasks?search=${encodeURIComponent(search)}`);
-            const data = response.data.tasks || response.data;
+            const data = response.data.data.tasks || response.data.data;
             setTasks(Array.isArray(data) ? data.map(task => ({ id: task.id, name: task.name })) : []);
         } catch (error) {
             console.error('Error fetching tasks:', error);
@@ -320,7 +319,7 @@ export const EditActivityModal: React.FC<EditActivityModalProps> = ({ activity, 
         try {
             setLoadingUsers(true);
             const response = await api.get(`/users?search=${encodeURIComponent(search)}`);
-            const data = response.data.users || response.data;
+            const data = response.data.data.users || response.data.data;
             setUsers(Array.isArray(data) ? data.map(user => ({ id: user.id, name: user.fullName })) : []);
         } catch (error) {
             console.error('Error fetching users:', error);
@@ -732,7 +731,7 @@ export const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onCl
         try {
             setLoadingOutlets(true);
             const response = await api.get(`/outlets?search=${encodeURIComponent(search)}`);
-            const data = response.data.outlets || response.data;
+            const data = response.data.data.outlets || response.data.data;
             setOutlets(Array.isArray(data) ? data : []);
         } catch (error) {
             console.error('Error fetching outlets:', error);
@@ -745,7 +744,7 @@ export const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onCl
         try {
             setLoadingLeads(true);
             const response = await api.get(`/leads?search=${encodeURIComponent(search)}`);
-            const data = response.data.leads || response.data;
+            const data = response.data.data.leads || response.data.data;
             setLeads(Array.isArray(data) ? data.map(lead => ({ id: lead.id, name: lead.name })) : []);
         } catch (error) {
             console.error('Error fetching leads:', error);
@@ -758,7 +757,7 @@ export const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onCl
         try {
             setLoadingTasks(true);
             const response = await api.get(`/tasks?search=${encodeURIComponent(search)}`);
-            const data = response.data.tasks || response.data;
+            const data = response.data.data.tasks || response.data.data;
             setTasks(Array.isArray(data) ? data.map(task => ({ id: task.id, name: task.name })) : []);
         } catch (error) {
             console.error('Error fetching tasks:', error);
@@ -771,7 +770,7 @@ export const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onCl
         try {
             setLoadingUsers(true);
             const response = await api.get(`/users?search=${encodeURIComponent(search)}`);
-            const data = response.data.users || response.data;
+            const data = response.data.data.users || response.data.data;
             setUsers(Array.isArray(data) ? data.map(user => ({ id: user.id, name: user.fullName })) : []);
         } catch (error) {
             console.error('Error fetching users:', error);
@@ -979,6 +978,48 @@ export const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onCl
                                 />
                             </div>
 
+
+                            <div ref={outletDropdownRef} className="relative">
+                                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                                    Outlet
+                                </label>
+                                <Input
+                                    value={outletSearch}
+                                    onChange={(e) => {
+                                        setOutletSearch(e.target.value);
+                                        setShowOutletDropdown(true);
+                                    }}
+                                    onFocus={() => {
+                                        setShowOutletDropdown(true);
+                                        if (!outlets.length && !loadingOutlets) fetchOutlets('');
+                                    }}
+                                    placeholder={loadingOutlets ? "Loading outlets..." : "Search outlet..."}
+                                />
+                                {showOutletDropdown && (
+                                    <div className="absolute z-10 w-full bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 rounded-md mt-1 max-h-60 overflow-y-auto">
+                                        {loadingOutlets ? (
+                                            <div className="px-3 py-2">Loading...</div>
+                                        ) : filteredOutlets.length > 0 ? (
+                                            filteredOutlets.map(outlet => (
+                                                <div
+                                                    key={outlet.id}
+                                                    className="px-3 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer"
+                                                    onClick={() => {
+                                                        setFormData({ ...formData, outletId: outlet.id.toString() });
+                                                        setOutletSearch(outlet.outletName);
+                                                        setShowOutletDropdown(false);
+                                                    }}
+                                                >
+                                                    {outlet.outletName}
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <div className="px-3 py-2">No outlets found</div>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+
                             <div ref={leadDropdownRef} className="relative">
                                 <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
                                     Lead
@@ -1056,47 +1097,6 @@ export const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onCl
                                             ))
                                         ) : (
                                             <div className="px-3 py-2">No tasks found</div>
-                                        )}
-                                    </div>
-                                )}
-                            </div>
-
-                            <div ref={outletDropdownRef} className="relative">
-                                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
-                                    Outlet
-                                </label>
-                                <Input
-                                    value={outletSearch}
-                                    onChange={(e) => {
-                                        setOutletSearch(e.target.value);
-                                        setShowOutletDropdown(true);
-                                    }}
-                                    onFocus={() => {
-                                        setShowOutletDropdown(true);
-                                        if (!outlets.length && !loadingOutlets) fetchOutlets('');
-                                    }}
-                                    placeholder={loadingOutlets ? "Loading outlets..." : "Search outlet..."}
-                                />
-                                {showOutletDropdown && (
-                                    <div className="absolute z-10 w-full bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 rounded-md mt-1 max-h-60 overflow-y-auto">
-                                        {loadingOutlets ? (
-                                            <div className="px-3 py-2">Loading...</div>
-                                        ) : filteredOutlets.length > 0 ? (
-                                            filteredOutlets.map(outlet => (
-                                                <div
-                                                    key={outlet.id}
-                                                    className="px-3 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer"
-                                                    onClick={() => {
-                                                        setFormData({ ...formData, outletId: outlet.id.toString() });
-                                                        setOutletSearch(outlet.outletName);
-                                                        setShowOutletDropdown(false);
-                                                    }}
-                                                >
-                                                    {outlet.outletName}
-                                                </div>
-                                            ))
-                                        ) : (
-                                            <div className="px-3 py-2">No outlets found</div>
                                         )}
                                     </div>
                                 )}

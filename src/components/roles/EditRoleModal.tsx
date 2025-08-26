@@ -51,7 +51,7 @@ const EditRoleModal: React.FC<EditRoleModalProps> = ({ isOpen, onClose, role, on
       try {
         setLoadingPermissions(true);
         const response = await api.get<PermissionsResponse>('/permissions?page=1&limit=100'); // Adjust limit as needed
-        const permissionKeys = response.data.permissions.map(perm => perm.permission_key);
+        const permissionKeys = response.data.data.permissions.map(perm => perm.permission_key);
         setPossiblePermissions(permissionKeys);
         setError(null);
       } catch (err) {

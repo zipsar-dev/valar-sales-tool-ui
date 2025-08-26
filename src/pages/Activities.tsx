@@ -58,7 +58,7 @@ const Activities: React.FC = () => {
       });
 
       const response = await api.get(`/activities?${params}`);
-      const { activities, pagination: pag } = response.data;
+      const { activities, pagination: pag } = response.data.data;
 
       setActivities(activities);
       setPagination(pag);

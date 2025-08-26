@@ -275,7 +275,7 @@ const Tasks: React.FC = memo(() => {
       });
 
       const response = await api.get<TasksResponse>(`/tasks?${params}`);
-      const { tasks: rawTasks, pagination: pag } = response.data;
+      const { tasks: rawTasks, pagination: pag } = response.data.data;
       const parsedTasks = rawTasks.map((t: any) => ({
         ...t,
         id: t.id.toString(),
