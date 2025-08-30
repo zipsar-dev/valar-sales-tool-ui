@@ -380,7 +380,7 @@ const Dashboard: React.FC = () => {
                   <p className="text-xl md:text-2xl font-bold text-neutral-900 dark:text-white">
                     {card.value.toLocaleString()}
                   </p>
-                  <div className="flex items-center mt-2">
+                  {/* <div className="flex items-center mt-2">
                     {card.changeType === "increase" ? (
                       <ArrowUpIcon className="h-4 w-4 text-success-500 dark:text-success-400 mr-1" />
                     ) : (
@@ -397,7 +397,7 @@ const Dashboard: React.FC = () => {
                     <span className="text-sm text-neutral-500 dark:text-neutral-400 ml-1">
                       vs last month
                     </span>
-                  </div>
+                  </div> */}
                 </div>
                 <div
                   className={`p-3 rounded-lg bg-${card.color}-100 dark:bg-${card.color}-900/30`}
