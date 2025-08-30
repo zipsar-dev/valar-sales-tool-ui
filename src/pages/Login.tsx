@@ -67,7 +67,7 @@ const Login: React.FC = () => {
         {/* Logo & Heading */}
         <div className="text-center mb-8">
           <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl flex items-center justify-center mx-auto mb-4">
-            <span className="text-white font-bold text-2xl">S</span>
+            <span className="text-white font-bold text-2xl">V</span>
           </div>
           <h1 className="text-3xl font-bold text-neutral-900 dark:text-white mb-2">
             Welcome back
