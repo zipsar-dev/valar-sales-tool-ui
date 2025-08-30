@@ -11,7 +11,7 @@ import {
   Cog6ToothIcon,
   DocumentChartBarIcon,
   WalletIcon,
-} from '@heroicons/react/24/solid'; // Use filled icons for a modern look
+} from '@heroicons/react/24/solid';
 import { useAuth } from '../../contexts/AuthContext';
 import { ShieldCheck } from 'lucide-react';
 
@@ -54,10 +54,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, closeSidebar }) => {
       <div className="flex items-center h-16 px-4 border-b border-neutral-200 dark:border-neutral-800">
         <div className="flex items-center">
           <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center shadow-sm">
-            <span className="text-white font-bold text-lg">S</span>
+            <span className="text-white font-bold text-lg">V</span>
           </div>
           <span className="ml-3 text-lg font-bold text-neutral-900 dark:text-white">
-            SalesPro
+            Valar
           </span>
         </div>
       </div>
