@@ -20,6 +20,7 @@ import {
   Cell,
   LineChart,
   Line,
+  TooltipProps,
 } from "recharts";
 import { api } from "../lib/api";
 import Card, {
@@ -32,6 +33,8 @@ import { AddOutletModal } from "../modals/outlets";
 import { AddLeadModal } from "../modals/leads";
 import { AddTaskModal } from "../modals/tasks";
 import { AddActivityModal } from "../modals/activities";
+import { TASK_STAGE_COLORS, TASK_STAGES, TaskStage } from "../constants/TaskConstants";
+import { formatCurrency } from "../utils/formatters";
 
 interface DashboardStats {
   leads: number;
@@ -43,7 +46,7 @@ interface DashboardStats {
 }
 
 interface PipelineData {
-  stage: string;
+  stage: TaskStage;
   count: number;
   value: number;
 }
@@ -107,6 +110,25 @@ interface Activity {
   relatedTo?: string;
   relatedType?: "lead" | "opportunity" | "customer";
 }
+
+const CustomTooltip: React.FC<TooltipProps<number, string>> = ({ active, payload }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div
+        className="custom-pie-tooltip bg-[var(--toast-bg)] border-[var(--toast-border)] text-[var(--toast-color)] rounded-lg p-3 shadow-lg"
+        style={{
+          borderWidth: "1px",
+          borderStyle: "solid",
+          boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
+        }}
+      >
+        <p className="text-sm font-medium">{payload[0].name}</p>
+        <p className="text-sm">{formatCurrency(Number(payload[0].value))}</p>
+      </div>
+    );
+  }
+  return null;
+};
 
 const Dashboard: React.FC = () => {
   const [stats, setStats] = useState<DashboardStats>({
@@ -305,21 +327,6 @@ const Dashboard: React.FC = () => {
     { month: "Jun", revenue: 0, opportunities: 0 },
   ];
 
-  const stageColors: Record<string, string> = {
-    prospecting: "#3B82F6",
-    qualification: "#10B981",
-    proposal: "#F59E0B",
-    negotiation: "#8B5CF6",
-    closed_won: "#059669",
-    closed_lost: "#EF4444",
-    new: "#3B82F6",
-    contacted: "#10B981",
-    qualified: "#F59E0B",
-    presentation: "#8B5CF6",
-    decision: "#059669",
-    closed: "#EF4444",
-  };
-
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-96">
@@ -380,11 +387,10 @@ const Dashboard: React.FC = () => {
                       <ArrowDownIcon className="h-4 w-4 text-error-500 dark:text-error-400 mr-1" />
                     )}
                     <span
-                      className={`text-sm font-medium ${
-                        card.changeType === "increase"
-                          ? "text-success-600 dark:text-success-400"
-                          : "text-error-600 dark:text-error-400"
-                      }`}
+                      className={`text-sm font-medium ${card.changeType === "increase"
+                        ? "text-success-600 dark:text-success-400"
+                        : "text-error-600 dark:text-error-400"
+                        }`}
                     >
                       {card.change}
                     </span>
@@ -467,8 +473,7 @@ const Dashboard: React.FC = () => {
           <CardContent>
             {pipeline.length === 0 ? (
               <div className="flex items-center justify-center h-[300px] text-neutral-500 dark:text-neutral-400">
-                No pipeline data available. Add opportunities to see the sales
-                pipeline.
+                No pipeline data available. Add opportunities to see the sales pipeline.
               </div>
             ) : (
               <>
@@ -482,26 +487,16 @@ const Dashboard: React.FC = () => {
                       outerRadius="60%"
                       paddingAngle={5}
                       dataKey="value"
+                      nameKey="stage"
                     >
                       {pipeline.map((entry, index) => (
                         <Cell
                           key={`cell-${index}`}
-                          fill={stageColors[entry.stage] || "#737373"}
+                          fill={TASK_STAGE_COLORS[entry.stage] || "#737373"}
                         />
                       ))}
                     </Pie>
-                    <Tooltip
-                      formatter={(value: number) => [
-                        formatCurrency(value),
-                        "Value",
-                      ]}
-                      contentStyle={{
-                        backgroundColor: "#1F2937",
-                        border: "none",
-                        borderRadius: "8px",
-                        color: "white",
-                      }}
-                    />
+                    <Tooltip content={<CustomTooltip />} wrapperStyle={{ zIndex: 100 }} />
                   </PieChart>
                 </ResponsiveContainer>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
@@ -510,12 +505,11 @@ const Dashboard: React.FC = () => {
                       <div
                         className="w-3 h-3 rounded-full mr-2"
                         style={{
-                          backgroundColor:
-                            stageColors[stage.stage] || "#737373",
+                          backgroundColor: TASK_STAGE_COLORS[stage.stage] || "#737373",
                         }}
                       ></div>
                       <span className="text-sm text-neutral-600 dark:text-neutral-400 capitalize">
-                        {stage.stage.replace("_", " ")}: {stage.count}
+                        {TASK_STAGES[stage.stage] || stage.stage}: {stage.count}
                       </span>
                     </div>
                   ))}
