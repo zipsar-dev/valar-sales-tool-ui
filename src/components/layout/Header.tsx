@@ -122,7 +122,7 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
           >
             <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-lg bg-white dark:bg-neutral-800 shadow-strong ring-1 ring-black ring-opacity-5 focus:outline-none">
               <div className="py-1">
-                <Menu.Item>
+                {/* <Menu.Item>
                   {({ active }) => (
                     <a
                       href="/profile"
@@ -153,7 +153,7 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
                       Settings
                     </a>
                   )}
-                </Menu.Item>
+                </Menu.Item> */}
                 <div className="border-t border-neutral-200 dark:border-neutral-700"></div>
                 <Menu.Item>
                   {({ active }) => (
