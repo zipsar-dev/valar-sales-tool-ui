@@ -16,6 +16,7 @@ export interface Outlet {
   postalCode?: string;
 
   notes?: string;
+  status?: string;
   assignedTo?: string;
   createdBy?: string;
   createdAt: string;
