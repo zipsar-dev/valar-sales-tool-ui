@@ -24,3 +24,14 @@ export const TASK_STATUS: Record<TaskStatus, string> = {
   SUCCESS: 'Success',
   FAILED: 'Failed',
 };
+
+export const TASK_STAGE_COLORS: Record<TaskStage, string> = {
+  NEW: "#3B82F6", // Blue
+  CONTACTED: "#10B981", // Green
+  DEMO: "#F59E0B", // Amber
+  OFFER_SENT: "#8B5CF6", // Purple
+  NEGOTIATION: "#EC4899", // Pink
+  FINALIZING: "#14B8A6", // Teal
+  WON: "#059669", // Emerald
+  LOST: "#EF4444", // Red
+};

@@ -109,6 +109,15 @@ export const ViewOutletModal: React.FC<ViewOutletModalProps> = ({
                 </p>
               </div>
 
+              <div>
+                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                  Status
+                </label>
+                <p className="mt-1 text-sm text-neutral-900 dark:text-white">
+                  {outlet.status || 'N/A'}
+                </p>
+              </div>
+
 
               <div>
                 <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
