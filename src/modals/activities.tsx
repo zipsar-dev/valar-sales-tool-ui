@@ -49,16 +49,17 @@ export const ViewActivityModal: React.FC<ViewActivityModalProps> = ({ activity, 
     };
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <Card className="max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 flex items-center justify-center z-50">
+            <Card className="max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto bg-white dark:bg-neutral-800">
                 <div className="p-6">
                     <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-xl font-bold text-neutral-900 dark:text-white">
+                        <h2 className="text-xl font-bold text-neutral-900 dark:text-neutral-100">
                             Activity Details
                         </h2>
                         <Button
                             variant="ghost"
                             onClick={onClose}
+                            className="text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200"
                         >
                             <X className="w-4 h-4" />
                         </Button>
@@ -67,12 +68,12 @@ export const ViewActivityModal: React.FC<ViewActivityModalProps> = ({ activity, 
                     <div className="space-y-4">
                         <div className="flex items-center space-x-4">
                             <div className="w-20 h-20 rounded-full bg-primary-100 dark:bg-primary-900 flex items-center justify-center">
-                                <span className="text-2xl font-semibold text-primary-600 dark:text-primary-400">
+                                <span className="text-2xl font-semibold text-primary-600 dark:text-primary-300">
                                     {getInitials(activity.subject)}
                                 </span>
                             </div>
                             <div>
-                                <h3 className="text-lg font-medium text-neutral-900 dark:text-white">
+                                <h3 className="text-lg font-medium text-neutral-900 dark:text-neutral-100">
                                     {activity.subject}
                                 </h3>
                                 <p className="text-neutral-500 dark:text-neutral-400">{activity.type}</p>
@@ -85,12 +86,13 @@ export const ViewActivityModal: React.FC<ViewActivityModalProps> = ({ activity, 
                                     Status
                                 </label>
                                 <p className="mt-1 text-sm">
-                                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${activity.status === 'completed'
+                                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                                        activity.status === 'completed'
                                             ? 'bg-success-100 text-success-800 dark:bg-success-900 dark:text-success-200'
                                             : activity.status === 'cancelled'
                                                 ? 'bg-error-100 text-error-800 dark:bg-error-900 dark:text-error-200'
                                                 : 'bg-warning-100 text-warning-800 dark:bg-warning-900 dark:text-warning-200'
-                                        }`}>
+                                    }`}>
                                         {activity.status}
                                     </span>
                                 </p>
@@ -100,7 +102,7 @@ export const ViewActivityModal: React.FC<ViewActivityModalProps> = ({ activity, 
                                 <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
                                     Priority
                                 </label>
-                                <p className="mt-1 text-sm text-neutral-900 dark:text-white">
+                                <p className="mt-1 text-sm text-neutral-900 dark:text-neutral-100">
                                     {activity.priority}
                                 </p>
                             </div>
@@ -109,7 +111,7 @@ export const ViewActivityModal: React.FC<ViewActivityModalProps> = ({ activity, 
                                 <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
                                     Due Date
                                 </label>
-                                <p className="mt-1 text-sm text-neutral-900 dark:text-white">
+                                <p className="mt-1 text-sm text-neutral-900 dark:text-neutral-100">
                                     {formatDate(activity.dueDate)}
                                 </p>
                             </div>
@@ -118,7 +120,7 @@ export const ViewActivityModal: React.FC<ViewActivityModalProps> = ({ activity, 
                                 <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
                                     Created
                                 </label>
-                                <p className="mt-1 text-sm text-neutral-900 dark:text-white">
+                                <p className="mt-1 text-sm text-neutral-900 dark:text-neutral-100">
                                     {formatDate(activity.createdAt)}
                                 </p>
                             </div>
@@ -127,7 +129,7 @@ export const ViewActivityModal: React.FC<ViewActivityModalProps> = ({ activity, 
                                 <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
                                     Completed
                                 </label>
-                                <p className="mt-1 text-sm text-neutral-900 dark:text-white">
+                                <p className="mt-1 text-sm text-neutral-900 dark:text-neutral-100">
                                     {formatDate(activity.completedAt)}
                                 </p>
                             </div>
@@ -136,7 +138,7 @@ export const ViewActivityModal: React.FC<ViewActivityModalProps> = ({ activity, 
                                 <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
                                     Assigned To
                                 </label>
-                                <p className="mt-1 text-sm text-neutral-900 dark:text-white">
+                                <p className="mt-1 text-sm text-neutral-900 dark:text-neutral-100">
                                     {activity.assignedTo?.name || 'N/A'}
                                 </p>
                             </div>
@@ -145,7 +147,7 @@ export const ViewActivityModal: React.FC<ViewActivityModalProps> = ({ activity, 
                                 <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
                                     Created By
                                 </label>
-                                <p className="mt-1 text-sm text-neutral-900 dark:text-white">
+                                <p className="mt-1 text-sm text-neutral-900 dark:text-neutral-100">
                                     {activity.createdBy?.name || 'N/A'}
                                 </p>
                             </div>
@@ -154,7 +156,7 @@ export const ViewActivityModal: React.FC<ViewActivityModalProps> = ({ activity, 
                                 <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
                                     Lead
                                 </label>
-                                <p className="mt-1 text-sm text-neutral-900 dark:text-white">
+                                <p className="mt-1 text-sm text-neutral-900 dark:text-neutral-100">
                                     {activity.lead?.name || 'N/A'}
                                 </p>
                             </div>
@@ -163,7 +165,7 @@ export const ViewActivityModal: React.FC<ViewActivityModalProps> = ({ activity, 
                                 <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
                                     Task
                                 </label>
-                                <p className="mt-1 text-sm text-neutral-900 dark:text-white">
+                                <p className="mt-1 text-sm text-neutral-900 dark:text-neutral-100">
                                     {activity.task?.name || 'N/A'}
                                 </p>
                             </div>
@@ -172,7 +174,7 @@ export const ViewActivityModal: React.FC<ViewActivityModalProps> = ({ activity, 
                                 <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
                                     Outlet
                                 </label>
-                                <p className="mt-1 text-sm text-neutral-900 dark:text-white">
+                                <p className="mt-1 text-sm text-neutral-900 dark:text-neutral-100">
                                     {activity.outlet?.outletName || 'N/A'}
                                 </p>
                             </div>
@@ -181,7 +183,7 @@ export const ViewActivityModal: React.FC<ViewActivityModalProps> = ({ activity, 
                                 <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
                                     Contact Name
                                 </label>
-                                <p className="mt-1 text-sm text-neutral-900 dark:text-white">
+                                <p className="mt-1 text-sm text-neutral-900 dark:text-neutral-100">
                                     {activity.outlet?.contactName || 'N/A'}
                                 </p>
                             </div>
@@ -190,7 +192,7 @@ export const ViewActivityModal: React.FC<ViewActivityModalProps> = ({ activity, 
                                 <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
                                     Contact Email
                                 </label>
-                                <p className="mt-1 text-sm text-neutral-900 dark:text-white">
+                                <p className="mt-1 text-sm text-neutral-900 dark:text-neutral-100">
                                     {activity.outlet?.email || 'N/A'}
                                 </p>
                             </div>
@@ -199,7 +201,7 @@ export const ViewActivityModal: React.FC<ViewActivityModalProps> = ({ activity, 
                                 <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
                                     Contact Phone
                                 </label>
-                                <p className="mt-1 text-sm text-neutral-900 dark:text-white">
+                                <p className="mt-1 text-sm text-neutral-900 dark:text-neutral-100">
                                     {activity.outlet?.phone || 'N/A'}
                                 </p>
                             </div>
@@ -210,7 +212,7 @@ export const ViewActivityModal: React.FC<ViewActivityModalProps> = ({ activity, 
                                 <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
                                     Description
                                 </label>
-                                <p className="mt-1 text-sm text-neutral-900 dark:text-white">
+                                <p className="mt-1 text-sm text-neutral-900 dark:text-neutral-100">
                                     {activity.description}
                                 </p>
                             </div>
@@ -294,7 +296,7 @@ export const EditActivityModal: React.FC<EditActivityModalProps> = ({ activity, 
             setLoadingLeads(true);
             const response = await api.get(`/leads?search=${encodeURIComponent(search)}`);
             const data = response.data.data.leads || response.data.data;
-            setLeads(Array.isArray(data) ? data.map(lead => ({ id: lead.id, name: lead.name })) : []);
+            setLeads(Array.isArray(data) ? data.map(lead => ({ id: lead.id, name: lead.fullName })) : []);
         } catch (error) {
             console.error('Error fetching leads:', error);
         } finally {
@@ -407,13 +409,13 @@ export const EditActivityModal: React.FC<EditActivityModalProps> = ({ activity, 
     };
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 flex items-center justify-center z-50">
             <Card className="max-w-md w-full mx-4 max-h-[90vh] flex flex-col bg-white dark:bg-neutral-800">
                 <div className="p-6 border-b border-neutral-200 dark:border-neutral-700 flex items-center justify-between">
-                    <h2 className="text-xl font-bold text-neutral-900 dark:text-white">
+                    <h2 className="text-xl font-bold text-neutral-900 dark:text-neutral-100">
                         Edit Activity
                     </h2>
-                    <Button variant="ghost" onClick={onClose}>
+                    <Button variant="ghost" onClick={onClose} className="text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200">
                         <X className="w-4 h-4" />
                     </Button>
                 </div>
@@ -429,13 +431,13 @@ export const EditActivityModal: React.FC<EditActivityModalProps> = ({ activity, 
                                     name="type"
                                     value={formData.type}
                                     onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white"
+                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent"
                                     required
                                 >
-                                    <option value="Call">Call</option>
-                                    <option value="Meeting">Meeting</option>
-                                    <option value="Email">Email</option>
-                                    <option value="Task">Task</option>
+                                    <option value="Call" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">Call</option>
+                                    <option value="Meeting" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">Meeting</option>
+                                    <option value="Email" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">Email</option>
+                                    <option value="Task" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">Task</option>
                                 </select>
                             </div>
 
@@ -448,6 +450,7 @@ export const EditActivityModal: React.FC<EditActivityModalProps> = ({ activity, 
                                     value={formData.subject}
                                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                                     required
+                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent"
                                 />
                             </div>
 
@@ -459,7 +462,7 @@ export const EditActivityModal: React.FC<EditActivityModalProps> = ({ activity, 
                                     name="description"
                                     value={formData.description || ''}
                                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white"
+                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent"
                                     rows={4}
                                 />
                             </div>
@@ -472,13 +475,13 @@ export const EditActivityModal: React.FC<EditActivityModalProps> = ({ activity, 
                                     name="status"
                                     value={formData.status}
                                     onChange={(e) => setFormData({ ...formData, status: e.target.value as 'planned' | 'in_progress' | 'completed' | 'cancelled' })}
-                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white"
+                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent"
                                     required
                                 >
-                                    <option value="planned">Planned</option>
-                                    <option value="in_progress">In Progress</option>
-                                    <option value="completed">Completed</option>
-                                    <option value="cancelled">Cancelled</option>
+                                    <option value="planned" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">Planned</option>
+                                    <option value="in_progress" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">In Progress</option>
+                                    <option value="completed" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">Completed</option>
+                                    <option value="cancelled" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">Cancelled</option>
                                 </select>
                             </div>
 
@@ -490,12 +493,12 @@ export const EditActivityModal: React.FC<EditActivityModalProps> = ({ activity, 
                                     name="priority"
                                     value={formData.priority}
                                     onChange={(e) => setFormData({ ...formData, priority: e.target.value as 'low' | 'medium' | 'high' })}
-                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white"
+                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent"
                                     required
                                 >
-                                    <option value="low">Low</option>
-                                    <option value="medium">Medium</option>
-                                    <option value="high">High</option>
+                                    <option value="low" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">Low</option>
+                                    <option value="medium" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">Medium</option>
+                                    <option value="high" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">High</option>
                                 </select>
                             </div>
 
@@ -508,6 +511,7 @@ export const EditActivityModal: React.FC<EditActivityModalProps> = ({ activity, 
                                     type="datetime-local"
                                     value={formData.dueDate ? new Date(formData.dueDate).toISOString().slice(0, 16) : ''}
                                     onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
+                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent"
                                 />
                             </div>
 
@@ -526,16 +530,17 @@ export const EditActivityModal: React.FC<EditActivityModalProps> = ({ activity, 
                                         if (!leads.length && !loadingLeads) fetchLeads('');
                                     }}
                                     placeholder={loadingLeads ? "Loading leads..." : "Search lead..."}
+                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent"
                                 />
                                 {showLeadDropdown && (
-                                    <div className="absolute z-10 w-full bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 rounded-md mt-1 max-h-60 overflow-y-auto">
+                                    <div className="absolute z-10 w-full bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-600 rounded-md mt-1 max-h-60 overflow-y-auto shadow-lg">
                                         {loadingLeads ? (
-                                            <div className="px-3 py-2">Loading...</div>
+                                            <div className="px-3 py-2 text-neutral-700 dark:text-neutral-300">Loading...</div>
                                         ) : filteredLeads.length > 0 ? (
                                             filteredLeads.map(lead => (
                                                 <div
                                                     key={lead.id}
-                                                    className="px-3 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer"
+                                                    className="px-3 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer text-neutral-900 dark:text-neutral-100"
                                                     onClick={() => {
                                                         setFormData({ ...formData, leadId: lead.id.toString() });
                                                         setLeadSearch(lead.name);
@@ -546,7 +551,7 @@ export const EditActivityModal: React.FC<EditActivityModalProps> = ({ activity, 
                                                 </div>
                                             ))
                                         ) : (
-                                            <div className="px-3 py-2">No leads found</div>
+                                            <div className="px-3 py-2 text-neutral-700 dark:text-neutral-300">No leads found</div>
                                         )}
                                     </div>
                                 )}
@@ -567,16 +572,17 @@ export const EditActivityModal: React.FC<EditActivityModalProps> = ({ activity, 
                                         if (!tasks.length && !loadingTasks) fetchTasks('');
                                     }}
                                     placeholder={loadingTasks ? "Loading tasks..." : "Search task..."}
+                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent"
                                 />
                                 {showTaskDropdown && (
-                                    <div className="absolute z-10 w-full bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 rounded-md mt-1 max-h-60 overflow-y-auto">
+                                    <div className="absolute z-10 w-full bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-600 rounded-md mt-1 max-h-60 overflow-y-auto shadow-lg">
                                         {loadingTasks ? (
-                                            <div className="px-3 py-2">Loading...</div>
+                                            <div className="px-3 py-2 text-neutral-700 dark:text-neutral-300">Loading...</div>
                                         ) : filteredTasks.length > 0 ? (
                                             filteredTasks.map(task => (
                                                 <div
                                                     key={task.id}
-                                                    className="px-3 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer"
+                                                    className="px-3 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer text-neutral-900 dark:text-neutral-100"
                                                     onClick={() => {
                                                         setFormData({ ...formData, taskId: task.id.toString() });
                                                         setTaskSearch(task.name);
@@ -587,7 +593,7 @@ export const EditActivityModal: React.FC<EditActivityModalProps> = ({ activity, 
                                                 </div>
                                             ))
                                         ) : (
-                                            <div className="px-3 py-2">No tasks found</div>
+                                            <div className="px-3 py-2 text-neutral-700 dark:text-neutral-300">No tasks found</div>
                                         )}
                                     </div>
                                 )}
@@ -608,16 +614,17 @@ export const EditActivityModal: React.FC<EditActivityModalProps> = ({ activity, 
                                         if (!outlets.length && !loadingOutlets) fetchOutlets('');
                                     }}
                                     placeholder={loadingOutlets ? "Loading outlets..." : "Search outlet..."}
+                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent"
                                 />
                                 {showOutletDropdown && (
-                                    <div className="absolute z-10 w-full bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 rounded-md mt-1 max-h-60 overflow-y-auto">
+                                    <div className="absolute z-10 w-full bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-600 rounded-md mt-1 max-h-60 overflow-y-auto shadow-lg">
                                         {loadingOutlets ? (
-                                            <div className="px-3 py-2">Loading...</div>
+                                            <div className="px-3 py-2 text-neutral-700 dark:text-neutral-300">Loading...</div>
                                         ) : filteredOutlets.length > 0 ? (
                                             filteredOutlets.map(outlet => (
                                                 <div
                                                     key={outlet.id}
-                                                    className="px-3 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer"
+                                                    className="px-3 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer text-neutral-900 dark:text-neutral-100"
                                                     onClick={() => {
                                                         setFormData({ ...formData, outletId: outlet.id.toString() });
                                                         setOutletSearch(outlet.outletName);
@@ -628,7 +635,7 @@ export const EditActivityModal: React.FC<EditActivityModalProps> = ({ activity, 
                                                 </div>
                                             ))
                                         ) : (
-                                            <div className="px-3 py-2">No outlets found</div>
+                                            <div className="px-3 py-2 text-neutral-700 dark:text-neutral-300">No outlets found</div>
                                         )}
                                     </div>
                                 )}
@@ -649,16 +656,17 @@ export const EditActivityModal: React.FC<EditActivityModalProps> = ({ activity, 
                                         if (!users.length && !loadingUsers) fetchUsers('');
                                     }}
                                     placeholder={loadingUsers ? "Loading users..." : "Search user..."}
+                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent"
                                 />
                                 {showUserDropdown && (
-                                    <div className="absolute z-10 w-full bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 rounded-md mt-1 max-h-60 overflow-y-auto">
+                                    <div className="absolute z-10 w-full bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-600 rounded-md mt-1 max-h-60 overflow-y-auto shadow-lg">
                                         {loadingUsers ? (
-                                            <div className="px-3 py-2">Loading...</div>
+                                            <div className="px-3 py-2 text-neutral-700 dark:text-neutral-300">Loading...</div>
                                         ) : filteredUsers.length > 0 ? (
                                             filteredUsers.map(user => (
                                                 <div
                                                     key={user.id}
-                                                    className="px-3 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer"
+                                                    className="px-3 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer text-neutral-900 dark:text-neutral-100"
                                                     onClick={() => {
                                                         setFormData({ ...formData, assignedTo: { id: user.id.toString(), name: user.name } });
                                                         setUserSearch(user.name);
@@ -669,7 +677,7 @@ export const EditActivityModal: React.FC<EditActivityModalProps> = ({ activity, 
                                                 </div>
                                             ))
                                         ) : (
-                                            <div className="px-3 py-2">No users found</div>
+                                            <div className="px-3 py-2 text-neutral-700 dark:text-neutral-300">No users found</div>
                                         )}
                                     </div>
                                 )}
@@ -679,10 +687,10 @@ export const EditActivityModal: React.FC<EditActivityModalProps> = ({ activity, 
                 </div>
 
                 <div className="p-4 border-t border-neutral-200 dark:border-neutral-700 flex justify-end space-x-3 bg-white dark:bg-neutral-900">
-                    <Button variant="outline" onClick={onClose} className="dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700">
+                    <Button variant="outline" onClick={onClose} className="border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700">
                         Cancel
                     </Button>
-                    <Button type="submit" form="editActivityForm">
+                    <Button type="submit" form="editActivityForm" className="bg-primary-600 dark:bg-primary-500 text-white hover:bg-primary-700 dark:hover:bg-primary-400">
                         Save Changes
                     </Button>
                 </div>
@@ -745,7 +753,7 @@ export const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onCl
             setLoadingLeads(true);
             const response = await api.get(`/leads?search=${encodeURIComponent(search)}`);
             const data = response.data.data.leads || response.data.data;
-            setLeads(Array.isArray(data) ? data.map(lead => ({ id: lead.id, name: lead.name })) : []);
+            setLeads(Array.isArray(data) ? data.map(lead => ({ id: lead.id, name: lead.fullName })) : []);
         } catch (error) {
             console.error('Error fetching leads:', error);
         } finally {
@@ -874,13 +882,13 @@ export const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onCl
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 flex items-center justify-center z-50">
             <Card className="max-w-md w-full mx-4 max-h-[90vh] flex flex-col bg-white dark:bg-neutral-800">
                 <div className="p-6 border-b border-neutral-200 dark:border-neutral-700 flex items-center justify-between">
-                    <h2 className="text-xl font-bold text-neutral-900 dark:text-white">
+                    <h2 className="text-xl font-bold text-neutral-900 dark:text-neutral-100">
                         Add New Activity
                     </h2>
-                    <Button variant="ghost" onClick={onClose}>
+                    <Button variant="ghost" onClick={onClose} className="text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200">
                         <X className="w-4 h-4" />
                     </Button>
                 </div>
@@ -896,13 +904,13 @@ export const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onCl
                                     name="type"
                                     value={formData.type}
                                     onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white"
+                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent"
                                     required
                                 >
-                                    <option value="Call">Call</option>
-                                    <option value="Meeting">Meeting</option>
-                                    <option value="Email">Email</option>
-                                    <option value="Task">Task</option>
+                                    <option value="Call" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">Call</option>
+                                    <option value="Meeting" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">Meeting</option>
+                                    <option value="Email" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">Email</option>
+                                    <option value="Task" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">Task</option>
                                 </select>
                             </div>
 
@@ -915,6 +923,7 @@ export const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onCl
                                     value={formData.subject}
                                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                                     required
+                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent"
                                 />
                             </div>
 
@@ -926,7 +935,7 @@ export const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onCl
                                     name="description"
                                     value={formData.description || ''}
                                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white"
+                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent"
                                     rows={4}
                                 />
                             </div>
@@ -939,13 +948,13 @@ export const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onCl
                                     name="status"
                                     value={formData.status}
                                     onChange={(e) => setFormData({ ...formData, status: e.target.value as 'planned' | 'in_progress' | 'completed' | 'cancelled' })}
-                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white"
+                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent"
                                     required
                                 >
-                                    <option value="planned">Planned</option>
-                                    <option value="in_progress">In Progress</option>
-                                    <option value="completed">Completed</option>
-                                    <option value="cancelled">Cancelled</option>
+                                    <option value="planned" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">Planned</option>
+                                    <option value="in_progress" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">In Progress</option>
+                                    <option value="completed" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">Completed</option>
+                                    <option value="cancelled" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">Cancelled</option>
                                 </select>
                             </div>
 
@@ -957,12 +966,12 @@ export const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onCl
                                     name="priority"
                                     value={formData.priority}
                                     onChange={(e) => setFormData({ ...formData, priority: e.target.value as 'low' | 'medium' | 'high' })}
-                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white"
+                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent"
                                     required
                                 >
-                                    <option value="low">Low</option>
-                                    <option value="medium">Medium</option>
-                                    <option value="high">High</option>
+                                    <option value="low" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">Low</option>
+                                    <option value="medium" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">Medium</option>
+                                    <option value="high" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">High</option>
                                 </select>
                             </div>
 
@@ -975,9 +984,9 @@ export const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onCl
                                     type="datetime-local"
                                     value={formData.dueDate || ''}
                                     onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
+                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent"
                                 />
                             </div>
-
 
                             <div ref={outletDropdownRef} className="relative">
                                 <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
@@ -994,16 +1003,17 @@ export const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onCl
                                         if (!outlets.length && !loadingOutlets) fetchOutlets('');
                                     }}
                                     placeholder={loadingOutlets ? "Loading outlets..." : "Search outlet..."}
+                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent"
                                 />
                                 {showOutletDropdown && (
-                                    <div className="absolute z-10 w-full bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 rounded-md mt-1 max-h-60 overflow-y-auto">
+                                    <div className="absolute z-10 w-full bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-600 rounded-md mt-1 max-h-60 overflow-y-auto shadow-lg">
                                         {loadingOutlets ? (
-                                            <div className="px-3 py-2">Loading...</div>
+                                            <div className="px-3 py-2 text-neutral-700 dark:text-neutral-300">Loading...</div>
                                         ) : filteredOutlets.length > 0 ? (
                                             filteredOutlets.map(outlet => (
                                                 <div
                                                     key={outlet.id}
-                                                    className="px-3 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer"
+                                                    className="px-3 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer text-neutral-900 dark:text-neutral-100"
                                                     onClick={() => {
                                                         setFormData({ ...formData, outletId: outlet.id.toString() });
                                                         setOutletSearch(outlet.outletName);
@@ -1014,7 +1024,7 @@ export const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onCl
                                                 </div>
                                             ))
                                         ) : (
-                                            <div className="px-3 py-2">No outlets found</div>
+                                            <div className="px-3 py-2 text-neutral-700 dark:text-neutral-300">No outlets found</div>
                                         )}
                                     </div>
                                 )}
@@ -1035,16 +1045,17 @@ export const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onCl
                                         if (!leads.length && !loadingLeads) fetchLeads('');
                                     }}
                                     placeholder={loadingLeads ? "Loading leads..." : "Search lead..."}
+                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent"
                                 />
                                 {showLeadDropdown && (
-                                    <div className="absolute z-10 w-full bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 rounded-md mt-1 max-h-60 overflow-y-auto">
+                                    <div className="absolute z-10 w-full bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-600 rounded-md mt-1 max-h-60 overflow-y-auto shadow-lg">
                                         {loadingLeads ? (
-                                            <div className="px-3 py-2">Loading...</div>
+                                            <div className="px-3 py-2 text-neutral-700 dark:text-neutral-300">Loading...</div>
                                         ) : filteredLeads.length > 0 ? (
                                             filteredLeads.map(lead => (
                                                 <div
                                                     key={lead.id}
-                                                    className="px-3 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer"
+                                                    className="px-3 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer text-neutral-900 dark:text-neutral-100"
                                                     onClick={() => {
                                                         setFormData({ ...formData, leadId: lead.id.toString() });
                                                         setLeadSearch(lead.name);
@@ -1055,7 +1066,7 @@ export const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onCl
                                                 </div>
                                             ))
                                         ) : (
-                                            <div className="px-3 py-2">No leads found</div>
+                                            <div className="px-3 py-2 text-neutral-700 dark:text-neutral-300">No leads found</div>
                                         )}
                                     </div>
                                 )}
@@ -1076,16 +1087,17 @@ export const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onCl
                                         if (!tasks.length && !loadingTasks) fetchTasks('');
                                     }}
                                     placeholder={loadingTasks ? "Loading tasks..." : "Search task..."}
+                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent"
                                 />
                                 {showTaskDropdown && (
-                                    <div className="absolute z-10 w-full bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 rounded-md mt-1 max-h-60 overflow-y-auto">
+                                    <div className="absolute z-10 w-full bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-600 rounded-md mt-1 max-h-60 overflow-y-auto shadow-lg">
                                         {loadingTasks ? (
-                                            <div className="px-3 py-2">Loading...</div>
+                                            <div className="px-3 py-2 text-neutral-700 dark:text-neutral-300">Loading...</div>
                                         ) : filteredTasks.length > 0 ? (
                                             filteredTasks.map(task => (
                                                 <div
                                                     key={task.id}
-                                                    className="px-3 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer"
+                                                    className="px-3 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer text-neutral-900 dark:text-neutral-100"
                                                     onClick={() => {
                                                         setFormData({ ...formData, taskId: task.id.toString() });
                                                         setTaskSearch(task.name);
@@ -1096,7 +1108,7 @@ export const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onCl
                                                 </div>
                                             ))
                                         ) : (
-                                            <div className="px-3 py-2">No tasks found</div>
+                                            <div className="px-3 py-2 text-neutral-700 dark:text-neutral-300">No tasks found</div>
                                         )}
                                     </div>
                                 )}
@@ -1117,16 +1129,17 @@ export const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onCl
                                         if (!users.length && !loadingUsers) fetchUsers('');
                                     }}
                                     placeholder={loadingUsers ? "Loading users..." : "Search user..."}
+                                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent"
                                 />
                                 {showUserDropdown && (
-                                    <div className="absolute z-10 w-full bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 rounded-md mt-1 max-h-60 overflow-y-auto">
+                                    <div className="absolute z-10 w-full bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-600 rounded-md mt-1 max-h-60 overflow-y-auto shadow-lg">
                                         {loadingUsers ? (
-                                            <div className="px-3 py-2">Loading...</div>
+                                            <div className="px-3 py-2 text-neutral-700 dark:text-neutral-300">Loading...</div>
                                         ) : filteredUsers.length > 0 ? (
                                             filteredUsers.map(user => (
                                                 <div
                                                     key={user.id}
-                                                    className="px-3 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer"
+                                                    className="px-3 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer text-neutral-900 dark:text-neutral-100"
                                                     onClick={() => {
                                                         setFormData({ ...formData, assignedTo: { id: user.id.toString(), name: user.name } });
                                                         setUserSearch(user.name);
@@ -1137,7 +1150,7 @@ export const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onCl
                                                 </div>
                                             ))
                                         ) : (
-                                            <div className="px-3 py-2">No users found</div>
+                                            <div className="px-3 py-2 text-neutral-700 dark:text-neutral-300">No users found</div>
                                         )}
                                     </div>
                                 )}
@@ -1147,10 +1160,10 @@ export const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onCl
                 </div>
 
                 <div className="p-4 border-t border-neutral-200 dark:border-neutral-700 flex justify-end space-x-3 bg-white dark:bg-neutral-900">
-                    <Button variant="outline" onClick={onClose} className="dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700">
+                    <Button variant="outline" onClick={onClose} className="border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700">
                         Cancel
                     </Button>
-                    <Button type="submit" form="addActivityForm">
+                    <Button type="submit" form="addActivityForm" className="bg-primary-600 dark:bg-primary-500 text-white hover:bg-primary-700 dark:hover:bg-primary-400">
                         Add Activity
                     </Button>
                 </div>
