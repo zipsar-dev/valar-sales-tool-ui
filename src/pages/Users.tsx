@@ -15,9 +15,8 @@ import { useAuth } from "../contexts/AuthContext";
 import Card from "../components/ui/Card";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
-import EditUserModal from "../components/users/EditUserModal";
-import AddUserModal from "../components/users/AddUserModal";
 import { User, UsersResponse } from "../types/users";
+import { AddUserModal, EditUserModal } from "../modals/users";
 
 const Users: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);

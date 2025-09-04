@@ -340,9 +340,10 @@ export const AddOutletModal: React.FC<AddOutletModalProps> = ({
                 </label>
                 <textarea
                   name="notes"
-                  className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white"
+                  className="w-full px-3 py-2.5 border border-neutral-300 bg-white text-sm shadow-sm transition-colors rounded-lg focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-100 dark:focus:border-primary-400 dark:focus:ring-primary-400"
                 />
               </div>
+
             </div>
           </form>
         </div>
@@ -550,9 +551,10 @@ export const EditOutletModal: React.FC<EditOutletModalProps> = ({
                 <textarea
                   name="notes"
                   defaultValue={outlet.notes || ''}
-                  className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white"
+                  className="w-full px-3 py-2.5 border border-neutral-300 bg-white text-sm shadow-sm transition-colors rounded-lg focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-100 dark:focus:border-primary-400 dark:focus:ring-primary-400"
                 />
               </div>
+
             </div>
           </form>
         </div>
