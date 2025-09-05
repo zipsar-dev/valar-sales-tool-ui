@@ -10,34 +10,23 @@ export const api = axios.create({
   },
 });
 
-// Request interceptor
 api.interceptors.request.use(
-  (config) => {
-    // Add any request transformations here
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (config) => config,
+  (error) => Promise.reject(new Error(error.message || 'Request failed'))
 );
 
-// Response interceptor
 api.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+  (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Handle unauthorized access
       localStorage.removeItem('auth_token');
       localStorage.removeItem('auth_user');
       window.location.href = '/login';
     }
-    return Promise.reject(error);
+    return Promise.reject(new Error(error.message || 'Request failed'));
   }
 );
 
-// Wallet API
 export const walletApi = {
   getWallet: () => api.get('/wallet'),
   getTransactions: (limit = 50, offset = 0) => 

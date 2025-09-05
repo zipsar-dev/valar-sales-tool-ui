@@ -6,7 +6,6 @@ import Input from '../components/ui/Input';
 import api from '../lib/api';
 import { Lead } from '../types/leads';
 
-// Add Lead Modal Component
 interface AddLeadModalProps {
   showAddModal: boolean;
   setShowAddModal: (show: boolean) => void;
@@ -354,7 +353,6 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({
   );
 };
 
-// Edit Lead Modal Component
 interface EditLeadModalProps {
   showEditModal: boolean;
   setShowEditModal: (show: boolean) => void;
@@ -725,7 +723,6 @@ export const EditLeadModal: React.FC<EditLeadModalProps> = ({
   );
 };
 
-// View Lead Modal Component
 interface ViewLeadModalProps {
   showViewModal: boolean;
   setShowViewModal: (show: boolean) => void;

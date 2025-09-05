@@ -4,6 +4,7 @@ import React, {
   useEffect,
   useState,
   memo,
+  useMemo,
 } from "react";
 import { api } from "../lib/api";
 
@@ -45,7 +46,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = memo(
 
     useEffect(() => {
       let isMounted = true;
-      console.log("AuthProvider useEffect triggered");
       const savedToken = localStorage.getItem("auth_token");
       const savedUser = localStorage.getItem("auth_user");
 
@@ -63,12 +63,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = memo(
 
       return () => {
         isMounted = false;
-        console.log("AuthProvider useEffect cleanup");
       };
     }, []);
 
     const refreshUserAccess = async () => {
-      console.log("Refreshing user access");
       try {
         const res = await api.get("/users/access");
         const newPermissions = res.data.data.permissions;
@@ -96,7 +94,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = memo(
         localStorage.setItem("auth_user", JSON.stringify(newUser));
         api.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
       } catch (error: any) {
-        console.error("Login API error:", error);
         if (error.response?.status === 401) {
           throw new Error("Invalid email or password");
         } else if (error.response?.status === 422) {
@@ -124,7 +121,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = memo(
         localStorage.setItem("auth_user", JSON.stringify(newUser));
         api.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
       } catch (error: any) {
-        console.error("Registration API error:", error);
         if (error.response?.status === 409) {
           throw new Error("Email already registered");
         } else if (error.response?.status === 422) {
@@ -139,7 +135,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = memo(
       try {
         await api.post("/auth/logout");
       } catch (error) {
-        console.warn("Logout API call failed, continuing with local logout");
+        // Continue with local logout even if API call fails
       }
 
       setUser(null);
@@ -154,18 +150,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = memo(
       localStorage.setItem("auth_user", JSON.stringify(updatedUser));
     };
 
+    const contextValue = useMemo(
+      () => ({
+        user,
+        token,
+        isLoading,
+        login,
+        register,
+        logout,
+        updateUser,
+      }),
+      [user, token, isLoading, login, register, logout, updateUser]
+    );
+
     return (
-      <AuthContext.Provider
-        value={{
-          user,
-          token,
-          isLoading,
-          login,
-          register,
-          logout,
-          updateUser,
-        }}
-      >
+      <AuthContext.Provider value={contextValue}>
         {children}
       </AuthContext.Provider>
     );

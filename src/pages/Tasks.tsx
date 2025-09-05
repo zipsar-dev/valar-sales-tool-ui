@@ -8,10 +8,8 @@ import { Task, TasksResponse } from "../types/tasks";
 import { ViewTaskModal, AddTaskModal, EditTaskModal } from "../modals/tasks";
 import { useAuth } from "../contexts/AuthContext";
 import {
-  TaskConstants,
   TaskStage,
   TASK_STAGES,
-  TASK_STATUS,
   TaskStatus,
 } from "../constants/TaskConstants";
 import { formatDate } from "../utils/formatters";
@@ -29,8 +27,8 @@ const stageColors: Record<TaskStage, string> = {
   LOST: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200",
 };
 
-const getTaskStageOptions = (taskConstants: TaskConstants) => {
-  return Object.entries(taskConstants.stages).map(([key, value]) => ({
+const getTaskStageOptions = () => {
+  return Object.entries(TASK_STAGES).map(([key, value]) => ({
     value: key as TaskStage,
     label: value,
   }));
@@ -39,7 +37,6 @@ const getTaskStageOptions = (taskConstants: TaskConstants) => {
 const TaskCard = memo(
   ({
     task,
-    taskConstants,
     setSelectedTask,
     setEditingTask,
     setNewTask,
@@ -48,7 +45,6 @@ const TaskCard = memo(
     handleDeleteTask,
   }: {
     task: Task;
-    taskConstants: TaskConstants;
     setSelectedTask: React.Dispatch<React.SetStateAction<Task | null>>;
     setEditingTask: React.Dispatch<React.SetStateAction<Task | null>>;
     setNewTask: React.Dispatch<React.SetStateAction<Partial<Task>>>;
@@ -67,7 +63,7 @@ const TaskCard = memo(
               Outlet: {task.outlet?.outletName || "N/A"}
             </p>
             <p className="text-sm text-neutral-500 dark:text-neutral-400 truncate">
-              Stage: {taskConstants.stages[task.stage] || task.stage}
+              Stage: {TASK_STAGES[task.stage] || task.stage}
             </p>
             <p className="text-sm text-neutral-500 dark:text-neutral-400 truncate">
               Assigned To: {task.assignedTo?.name || "N/A"}
@@ -135,7 +131,6 @@ TaskCard.displayName = "TaskCard";
 const TaskTable = memo(
   ({
     tasks,
-    taskConstants,
     setSelectedTask,
     setEditingTask,
     setNewTask,
@@ -144,7 +139,6 @@ const TaskTable = memo(
     handleDeleteTask,
   }: {
     tasks: Task[];
-    taskConstants: TaskConstants;
     setSelectedTask: React.Dispatch<React.SetStateAction<Task | null>>;
     setEditingTask: React.Dispatch<React.SetStateAction<Task | null>>;
     setNewTask: React.Dispatch<React.SetStateAction<Partial<Task>>>;
@@ -196,7 +190,7 @@ const TaskTable = memo(
                       "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200"
                     }`}
                   >
-                    {taskConstants.stages[task.stage] || task.stage}
+                    {TASK_STAGES[task.stage] || task.stage}
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
@@ -258,12 +252,6 @@ TaskTable.displayName = "TaskTable";
 
 const Tasks: React.FC = memo(() => {
   const { user, isLoading: authLoading } = useAuth();
-  const taskConstants: TaskConstants = {
-    stages: TASK_STAGES,
-    statuses: TASK_STATUS,
-    taskStageOptions: undefined,
-    taskStatusOptions: undefined,
-  };
 
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
@@ -478,7 +466,7 @@ const Tasks: React.FC = memo(() => {
                 className="px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white w-full md:w-auto"
               >
                 <option value="">All Stages</option>
-                {getTaskStageOptions(taskConstants).map((option) => (
+                {getTaskStageOptions().map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
                   </option>
@@ -539,7 +527,6 @@ const Tasks: React.FC = memo(() => {
               <div className="hidden md:block">
                 <TaskTable
                   tasks={tasks}
-                  taskConstants={taskConstants}
                   setSelectedTask={setSelectedTask}
                   setEditingTask={setEditingTask}
                   setNewTask={setNewTask}
@@ -554,7 +541,6 @@ const Tasks: React.FC = memo(() => {
                   <TaskCard
                     key={task.id}
                     task={task}
-                    taskConstants={taskConstants}
                     setSelectedTask={setSelectedTask}
                     setEditingTask={setEditingTask}
                     setNewTask={setNewTask}

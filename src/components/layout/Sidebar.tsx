@@ -4,8 +4,6 @@ import { clsx } from 'clsx';
 import { useAuth } from '../../contexts/AuthContext';
 import { navigation } from '../../config/menus';
 
-
-
 interface SidebarProps {
   isOpen: boolean;
   closeSidebar: () => void;
@@ -18,7 +16,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, closeSidebar }) => {
   const filteredNavigation = navigation.filter(item =>
     user?.permissions?.some(permission => item.access.includes(permission))
   );
-
 
   return (
     <div

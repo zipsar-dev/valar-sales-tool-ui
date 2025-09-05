@@ -2,12 +2,9 @@ import React, { useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
-  BellIcon,
   MagnifyingGlassIcon,
   SunIcon,
   MoonIcon,
-  UserCircleIcon,
-  Cog6ToothIcon,
   ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import { useTheme } from "../../contexts/ThemeContext";
@@ -24,8 +21,8 @@ const useMediaQuery = (query: string) => {
     setMatches(media.matches);
 
     const listener = () => setMatches(media.matches);
-    media.addListener(listener);
-    return () => media.removeListener(listener);
+    media.addEventListener('change', listener);
+    return () => media.removeEventListener('change', listener);
   }, [query]);
 
   return matches;
@@ -41,8 +38,8 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const isMobile = useMediaQuery("(max-width: 767px)"); // Matches Tailwind's md breakpoint
 
-  const handleLogout = async () => {
-    await logout();
+  const handleLogout = () => {
+    logout();
     window.location.href = "/login";
   };
 
@@ -88,12 +85,6 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
           )}
         </button>
 
-        {/* Notifications */}
-        {/* <button className="p-2 text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg transition-colors relative">
-          <BellIcon className="h-5 w-5" />
-          <span className="absolute top-1 right-1 block h-2 w-2 rounded-full bg-error-500"></span>
-        </button> */}
-
         {/* User menu */}
         <Menu as="div" className="relative">
           <Menu.Button className="flex items-center space-x-2 p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors">
@@ -122,38 +113,6 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
           >
             <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-lg bg-white dark:bg-neutral-800 shadow-strong ring-1 ring-black ring-opacity-5 focus:outline-none">
               <div className="py-1">
-                {/* <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="/profile"
-                      className={clsx(
-                        "group flex items-center px-4 py-2 text-sm",
-                        active
-                          ? "bg-neutral-100 dark:bg-neutral-700 text-neutral-900 dark:text-white"
-                          : "text-neutral-700 dark:text-neutral-300"
-                      )}
-                    >
-                      <UserCircleIcon className="mr-3 h-5 w-5" />
-                      Your Profile
-                    </a>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="/settings"
-                      className={clsx(
-                        "group flex items-center px-4 py-2 text-sm",
-                        active
-                          ? "bg-neutral-100 dark:bg-neutral-700 text-neutral-900 dark:text-white"
-                          : "text-neutral-700 dark:text-neutral-300"
-                      )}
-                    >
-                      <Cog6ToothIcon className="mr-3 h-5 w-5" />
-                      Settings
-                    </a>
-                  )}
-                </Menu.Item> */}
                 <div className="border-t border-neutral-200 dark:border-neutral-700"></div>
                 <Menu.Item>
                   {({ active }) => (

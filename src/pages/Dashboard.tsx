@@ -4,12 +4,8 @@ import {
   CurrencyDollarIcon,
   BuildingOffice2Icon,
   CalendarDaysIcon,
-  ArrowUpIcon,
-  ArrowDownIcon,
 } from "@heroicons/react/24/outline";
 import {
-  BarChart,
-  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -122,8 +118,8 @@ const CustomTooltip: React.FC<TooltipProps<number, string>> = ({ active, payload
           boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
         }}
       >
-        <p className="text-sm font-medium">{payload[0].name}</p>
-        <p className="text-sm">{formatCurrency(Number(payload[0].value))}</p>
+        <p className="text-sm font-medium">{payload[0]?.name}</p>
+        <p className="text-sm">{formatCurrency(Number(payload[0]?.value))}</p>
       </div>
     );
   }
@@ -159,18 +155,6 @@ const Dashboard: React.FC = () => {
     leadSource: "",
     description: "",
     assignedTo: { id: "", name: "" },
-  });
-  const [newActivity, setNewActivity] = useState<Partial<Activity>>({
-    type: "call",
-    subject: "",
-    description: "",
-    status: "planned",
-    priority: "low",
-    dueDate: "",
-    leadId: "",
-    opportunityId: "",
-    customerId: "",
-    assignedTo: "",
   });
 
   useEffect(() => {
@@ -310,14 +294,6 @@ const Dashboard: React.FC = () => {
     },
   ];
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 0,
-    }).format(amount);
-  };
-
   const defaultMonthlyData = [
     { month: "Jan", revenue: 0, opportunities: 0 },
     { month: "Feb", revenue: 0, opportunities: 0 },
@@ -380,24 +356,6 @@ const Dashboard: React.FC = () => {
                   <p className="text-xl md:text-2xl font-bold text-neutral-900 dark:text-white">
                     {card.value.toLocaleString()}
                   </p>
-                  {/* <div className="flex items-center mt-2">
-                    {card.changeType === "increase" ? (
-                      <ArrowUpIcon className="h-4 w-4 text-success-500 dark:text-success-400 mr-1" />
-                    ) : (
-                      <ArrowDownIcon className="h-4 w-4 text-error-500 dark:text-error-400 mr-1" />
-                    )}
-                    <span
-                      className={`text-sm font-medium ${card.changeType === "increase"
-                        ? "text-success-600 dark:text-success-400"
-                        : "text-error-600 dark:text-error-400"
-                        }`}
-                    >
-                      {card.change}
-                    </span>
-                    <span className="text-sm text-neutral-500 dark:text-neutral-400 ml-1">
-                      vs last month
-                    </span>
-                  </div> */}
                 </div>
                 <div
                   className={`p-3 rounded-lg bg-${card.color}-100 dark:bg-${card.color}-900/30`}
@@ -489,9 +447,9 @@ const Dashboard: React.FC = () => {
                       dataKey="value"
                       nameKey="stage"
                     >
-                      {pipeline.map((entry, index) => (
+                      {pipeline.map((entry) => (
                         <Cell
-                          key={`cell-${index}`}
+                          key={`cell-${entry.stage}`}
                           fill={TASK_STAGE_COLORS[entry.stage] || "#737373"}
                         />
                       ))}

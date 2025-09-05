@@ -59,15 +59,13 @@ const EditLeadModal: React.FC<EditLeadModalProps> = ({
               e.preventDefault();
               const formData = new FormData(e.currentTarget);
               const leadData: Partial<Lead> = {
-                firstName: formData.get('firstName') as string,
-                lastName: formData.get('lastName') as string,
+                fullName: formData.get('fullName') as string,
                 email: formData.get('email') as string,
                 phone: formData.get('phone') as string,
                 jobTitle: formData.get('jobTitle') as string,
                 leadSource: formData.get('leadSource') as string,
                 status: formData.get('status') as string,
                 notes: formData.get('notes') as string,
-                outletId: formData.get('outletId') ? Number(formData.get('outletId')) : undefined,
               };
 
               if (editingLead) {
@@ -87,23 +85,11 @@ const EditLeadModal: React.FC<EditLeadModalProps> = ({
             <div className="space-y-3 sm:space-y-4">
               <div>
                 <label className="block text-xs sm:text-sm font-medium text-neutral-700 dark:text-neutral-300">
-                  First Name
+                  Full Name
                 </label>
                 <Input
-                  name="firstName"
-                  defaultValue={editingLead?.firstName || ''}
-                  required
-                  className="text-sm w-full"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs sm:text-sm font-medium text-neutral-700 dark:text-neutral-300">
-                  Last Name
-                </label>
-                <Input
-                  name="lastName"
-                  defaultValue={editingLead?.lastName || ''}
+                  name="fullName"
+                  defaultValue={editingLead?.fullName || ''}
                   required
                   className="text-sm w-full"
                 />
@@ -131,7 +117,7 @@ const EditLeadModal: React.FC<EditLeadModalProps> = ({
                     name="phone"
                     type="tel"
                     defaultValue={editingLead?.phone || ''}
-                    className="极 sm w-full"
+                    className="text-sm w-full"
                   />
                 </div>
               </div>
@@ -154,7 +140,7 @@ const EditLeadModal: React.FC<EditLeadModalProps> = ({
                 <Input
                   name="leadSource"
                   defaultValue={editingLead?.leadSource || ''}
-                  className="text极 sm w-full"
+                  className="text-sm w-full"
                 />
               </div>
 
@@ -165,7 +151,7 @@ const EditLeadModal: React.FC<EditLeadModalProps> = ({
                 <select
                   name="status"
                   defaultValue={editingLead?.status || 'new'}
-                  className="w-full px-2 sm:px-极 py-1 sm:py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white text-sm"
+                  className="w-full px-2 sm:px-3 py-1 sm:py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white text-sm"
                   required
                 >
                   <option value="new">New</option>
@@ -175,18 +161,6 @@ const EditLeadModal: React.FC<EditLeadModalProps> = ({
                 </select>
               </div>
 
-              <div>
-                <label className="block text-xs sm:text-sm font-medium text-neutral-700 dark:text-neutral-300">
-                  Outlet ID
-                </label>
-                <Input
-                  name="outletId"
-                  type="number"
-                  min={0}
-                  defaultValue={editingLead?.outletId?.toString() || ''}
-                  className="text-sm w-full"
-                />
-              </div>
 
               <div>
                 <label className="block text-xs sm:text-sm font-medium text-neutral-700 dark:text-neutral-300">
