@@ -18,6 +18,7 @@ export interface Outlet {
 
 export interface Lead {
   id: number;
+  fullName: string;
   email: string;
   phone?: string;
   jobTitle?: string;

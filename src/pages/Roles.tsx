@@ -475,11 +475,10 @@ const Roles: React.FC = () => {
         onClose={() => setShowAddModal(false)}
         onSave={async (data) => {
           try {
-            const roleResponse = await api.post("/roles", {
+            await api.post("/roles", {
               role_name: data.role_name,
               role_key: data.role_key,
             });
-            const newRole = roleresponse.data.data;
 
             setShowAddModal(false);
             fetchRoles();

@@ -27,7 +27,6 @@ const Button: React.FC<ButtonProps> = ({
     danger: 'bg-error-600 hover:bg-error-700 text-white focus:ring-error-500 dark:bg-error-600 dark:hover:bg-error-700 dark:text-white dark:focus:ring-error-500'
   };
 
-
   const sizes = {
     xs: 'px-2.5 py-1.5 text-xs',
     sm: 'px-3 py-2 text-sm',
